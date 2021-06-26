@@ -1,5 +1,3 @@
-package branch2;
-
 import java.util.LinkedList;
 import java.util.ArrayList;
 
