@@ -1,3 +1,5 @@
+package src;
+
 public class Customer {
 
     protected boolean canPushIn = false;
