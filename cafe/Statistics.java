@@ -1,45 +1,194 @@
 package cafe;
 
+import java.lang.Math;
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class Statistics {
 
-  /* Uses double rather than int because the mean wait time can be a decimal, and this should not be rounded to an
-   * because that is to significant of a rounding.
-   */
+  private ArrayList<Customer> servedCustomerList = new ArrayList<Customer>();
 
-  private double totalStudentCount = 0; // Number of students that have been served
-  private double totalStaffCount = 0; // Number of staff that have been served
-
-  private double totalStudentWaitTime = 0; // Combined wait time of all students that have been served
-  private double totalStaffWaitTime = 0; // Combined wait time of all staff that have been served
-
-  public void addCustomer (Customer customer) { // This will add the customer into the summary statistcs by 
-
-    /* Checks whether the customer is a student or staff and updates the statistics accordingly*/
-
-    if (customer instanceof Student){ 
-      addStudent(customer); // If they are a student, increase the statistics for students
-    }
-    if (customer instanceof Staff){ // If they are a staff, increase the statistics for staff
-      addStaff(customer); 
-    }
+  public void addCustomer (Customer customer) { // Adds the customer to the ArrayList
+    servedCustomerList.add(customer);
   }
 
-  public void addStudent (Customer student){
-    totalStudentCount++; // Increase the amount of students by one
-    totalStudentWaitTime += student.getWaitTime(); // Add the time they waited to the total time students have waited
+  public ArrayList<Customer> getStudentList () {
+
+    ArrayList<Customer> studentList = new ArrayList<Customer>();
+    
+    for (Customer customer : servedCustomerList) {
+      
+      if (customer instanceof Student) {
+        studentList.add(customer);
+      }
+    }
+    return studentList;
+  } 
+
+  public ArrayList<Customer> getStaffList () {
+
+    ArrayList<Customer> staffList = new ArrayList<Customer>();
+    
+    for (Customer customer : servedCustomerList) {
+      
+      if (customer instanceof Staff) {
+        staffList.add(customer);
+      }
+    }
+    return staffList;
+  } 
+
+  public double getStudentStandardDeviation () {
+
+    double meanStudentWaitTime = getMeanStudentWaitTime();
+    double totalStudentStandardDeviation = 0;
+
+    ArrayList<Customer> studentList = getStudentList();
+
+    for (Customer customer: studentList){
+      totalStudentStandardDeviation += Math.abs(meanStudentWaitTime - customer.getWaitTime());
+    }
+    return totalStudentStandardDeviation / studentList.size();
   }
 
-  public void addStaff (Customer staff){
-    totalStaffCount++; // Increase the amount of staff by one
-    totalStaffWaitTime += staff.getWaitTime(); // Add the time they waited to the total time staff have waited
+  public double getStaffStandardDeviation () {
+
+    double meanStaffWaitTime = getMeanStaffWaitTime();
+    double totalStaffStandardDeviation = 0;
+
+    ArrayList<Customer> staffList = getStaffList();
+
+    for (Customer customer: staffList){
+      totalStaffStandardDeviation += Math.abs(meanStaffWaitTime - customer.getWaitTime());
+    }
+    return totalStaffStandardDeviation / staffList.size();
+  }
+
+  public ArrayList<Integer> getSortedStudentWaitTimeList () {
+
+    ArrayList<Customer> studentList = getStudentList();
+    ArrayList<Integer> waitTimeList = new ArrayList<Integer>();
+
+    for (Customer customer : studentList ) {
+      waitTimeList.add(customer.getWaitTime());
+    }
+    Collections.sort(waitTimeList);
+    return waitTimeList;
+  }
+
+  public ArrayList<Integer> getSortedStaffWaitTimeList () {
+
+    ArrayList<Customer> staffList = getStaffList();
+    ArrayList<Integer> waitTimeList = new ArrayList<Integer>();
+
+    for (Customer customer : staffList ) {
+      waitTimeList.add(customer.getWaitTime());
+    }
+    Collections.sort(waitTimeList);
+    return waitTimeList;
+  }
+
+    public int getModeStudentWaitTime () {
+
+      ArrayList<Integer> sortedStudentWaitTimeList = getSortedStudentWaitTimeList();
+
+      int currentAppearanceCount = 0;
+      int currentWaitTime = 0;
+
+      int currentModeWaitTime = 0;
+      int currentModeAppearanceCount = 0;
+
+      for (Integer waitTime : sortedStudentWaitTimeList) {
+
+        if (waitTime == currentModeWaitTime) {
+          currentAppearanceCount++;
+        }
+        if (waitTime != currentWaitTime) {
+          if (currentAppearanceCount > currentModeAppearanceCount) {
+            currentModeWaitTime = currentWaitTime;
+            currentModeAppearanceCount = currentAppearanceCount;
+          }
+          currentWaitTime = waitTime;
+          currentAppearanceCount = 1;
+        }
+      }
+      return currentModeWaitTime;
+    }
+
+  public int getModeStaffWaitTime () {
+
+    ArrayList<Integer> sortedStaffWaitTimeList = getSortedStaffWaitTimeList();
+
+    int currentAppearanceCount = 0;
+    int currentWaitTime = 0;
+
+    int currentModeWaitTime = 0;
+    int currentModeAppearanceCount = 0;
+
+    for (Integer waitTime : sortedStaffWaitTimeList) {
+
+      if (waitTime == currentModeWaitTime) {
+        currentAppearanceCount++;
+      }
+      if (waitTime != currentWaitTime) {
+        if (currentAppearanceCount > currentModeAppearanceCount) {
+          currentModeWaitTime = currentWaitTime;
+          currentModeAppearanceCount = currentAppearanceCount;
+        }
+        currentWaitTime = waitTime;
+        currentAppearanceCount = 1;
+      }
+    }
+    return currentModeWaitTime;
+  }
+
+  public int getMedianStudentWaitTime () {
+
+    ArrayList<Integer> sortedStudentWaitTimeList = getSortedStudentWaitTimeList();
+
+    int medianIndex = (int) Math.ceil(sortedStudentWaitTimeList.size() / 2);
+    return sortedStudentWaitTimeList.get(medianIndex);
+  }
+
+  public int getMedianStaffWaitTime () {
+    
+    ArrayList<Integer> sortedStaffWaitTimeList = getSortedStaffWaitTimeList();
+
+    int medianIndex = (int) Math.ceil(sortedStaffWaitTimeList.size() / 2);
+    return sortedStaffWaitTimeList.get(medianIndex);
   }
 
   public double getMeanStudentWaitTime () { // Get the mean (average) time that students have waited
-    return (totalStudentWaitTime / totalStudentCount);
+
+    double totalStudentWaitTime = 0;
+
+    ArrayList<Customer> studentList = getStudentList();
+
+    for (Customer customer : studentList){
+      totalStudentWaitTime += customer.getWaitTime();
+    }
+    return totalStudentWaitTime / studentList.size();
   }
 
-  public double getMeanStaffWaitTime () { // Get the mean (average) time that staff have waited
-    return (totalStaffWaitTime / totalStaffCount); // Mean is equal to the total wait time divided by the total count of people
+  public double getMeanStaffWaitTime () { // Get the mean (average) time that students have waited
+
+    double totalStaffWaitTime = 0;
+
+    ArrayList<Customer> staffList = getStaffList();
+
+    for (Customer customer : staffList){
+      totalStaffWaitTime += customer.getWaitTime();
+    }
+    return totalStaffWaitTime / staffList.size();
   }
-  
+
+  public int getRangeOfStudentWaitTimes () {
+    ArrayList<Integer> sortedStudentWaitTimeList = getSortedStudentWaitTimeList();
+    return (sortedStudentWaitTimeList.get(sortedStudentWaitTimeList.size() - 1) - sortedStudentWaitTimeList.get(0));
+  }
+
+  public int getRangeOfStaffWaitTimes () {
+    ArrayList<Integer> sortedStaffWaitTimeList = getSortedStaffWaitTimeList();
+    return (sortedStaffWaitTimeList.get(sortedStaffWaitTimeList.size() - 1) - sortedStaffWaitTimeList.get(0));
+  }
 }
