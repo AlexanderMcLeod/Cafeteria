@@ -6,15 +6,15 @@ public class Statistics {
    * because that is to significant of a rounding.
    */
 
-  private double totalStudentCount = 0;
-  private double totalStaffCount = 0;
+  private double totalStudentCount = 0; // Number of students that have been served
+  private double totalStaffCount = 0; // Number of staff that have been served
 
-  private double totalStudentWaitTime = 0;
-  private double totalStaffWaitTime = 0;
+  private double totalStudentWaitTime = 0; // Combined wait time of all students that have been served
+  private double totalStaffWaitTime = 0; // Combined wait time of all staff that have been served
 
   public void addCustomer (Customer customer) { // This will add the customer into the summary statistcs by 
 
-    /* Checks whether the customer is a student or staff */
+    /* Checks whether the customer is a student or staff and updates the statistics accordingly*/
 
     if (customer instanceof Student){ 
       addStudent(customer); // If they are a student, increase the statistics for students
@@ -39,7 +39,7 @@ public class Statistics {
   }
 
   public double getMeanStaffWaitTime () { // Get the mean (average) time that staff have waited
-    return (totalStaffWaitTime / totalStaffCount);
+    return (totalStaffWaitTime / totalStaffCount); // Mean is equal to the total wait time divided by the total count of people
   }
   
 }
