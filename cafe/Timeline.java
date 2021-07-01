@@ -6,13 +6,13 @@ public class Timeline {
 
   private Stack<Minute> minuteStack = new Stack<Minute>();
 
-  public Stack<Minute> toStack () { // Returns minuteStack
-    return minuteStack;
+  public int size () { // Returns the size of the timeline
+    return minuteStack.size();
   }
 
   public void addNewMinute () { // Adds a minute to the end of the timeline with the default values of 0 for everything
     int newIndex = minuteStack.size(); // Gets the index that the new minute would be to pass into its constructor
-    Minute newMinute = new Minute(newIndex, 0, 0, 0);
+    Minute newMinute = new Minute(newIndex, 0, 0, 0); // Constructs it with blank values
     minuteStack.add(newMinute);
   }
 
@@ -20,18 +20,13 @@ public class Timeline {
     minuteStack.pop();
   }
 
-  public Minute getMinuteFromIndex (final int index){
+  public Minute getMinute (final int index){
     return minuteStack.get(index);
   }
 
-  public void replaceMinuteWith (Minute minuteToReplaceWith) {
-    int index = minuteToReplaceWith.getIndex(); // Gets the index from the class to find out where to replace the minute
-    minuteStack.set(index, minuteToReplaceWith); // Sets the minute at the index to the minute parameter
-}
-
   public static class Minute {
 
-    /* Constructor variable */
+    /* Constructor class */
     public Minute(int newIndex, int newStudentsAddedToQueue, int newStaffAddedToQueue, int newCustomersRemovedFromQueue){
       setIndex(newIndex);
       setStudentsAddedToQueue(newStudentsAddedToQueue);
@@ -41,7 +36,7 @@ public class Timeline {
 
     private int index;
 
-    public int getIndex () {
+    public int getIndex () { 
       return index;
     }
 
