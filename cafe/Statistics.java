@@ -2,11 +2,15 @@ package cafe;
 
 public class Statistics {
 
-  private int totalStudentCount = 0;
-  private int totalStaffCount = 0;
+  /* Uses double rather than int because the mean wait time can be a decimal, and this should not be rounded to an
+   * because that is to significant of a rounding.
+   */
 
-  private int totalStudentWaitTime = 0;
-  private int totalStaffWaitTime = 0;
+  private double totalStudentCount = 0;
+  private double totalStaffCount = 0;
+
+  private double totalStudentWaitTime = 0;
+  private double totalStaffWaitTime = 0;
 
   public void addCustomer (Customer customer) { // This will add the customer into the summary statistcs by 
 
