@@ -1,7 +1,5 @@
 package cafe;
 
-import java.util.Stack;
-
 public class Simulation {
 
   private Timeline timeline; // Timeline that the simulator uses
@@ -13,58 +11,60 @@ public class Simulation {
 
   public Statistics getPushedInSimulation () {
 
-    Stack<Timeline.Minute> minuteStack = timeline.toStack();
     CafeQueue cafeQueue = new CafeQueue();
 
-    for (Timeline.Minute minute : minuteStack){
+    for (int minuteIndex = 0; minuteIndex < timeline.size(); minuteIndex++){
+
+      Timeline.Minute minute = timeline.getMinute(minuteIndex);
 
       // Adds students to the queue
       for (int i = 0; i < minute.getStudentsAddedToQueue(); i++){
-        cafeQueue.addStudent(minute.getIndex());
+        cafeQueue.addStudent(minuteIndex);
       }
 
       // Adds the staff to the queue
       for (int i = 0; i < minute.getStaffAddedToQueue(); i++){
-        cafeQueue.addPushingInStaff(minute.getIndex());
+        cafeQueue.addPushingInStaff(minuteIndex);
       }
 
       // Removes the customers from the queue
       for (int i = 0; i < minute.getCustomersRemovedFromQueue(); i++){
-        cafeQueue.removeFromFront(minute.getIndex());
+        cafeQueue.removeFromFront(minuteIndex);
       }
+
     }
+
     return cafeQueue.getStatistics();
+
   }
 
-  public Statistics getNonPushedInSimulation () {
+  public Statistics getNotPushedInSimulation () {
 
-    Stack<Timeline.Minute> minuteStack = timeline.toStack();
     CafeQueue cafeQueue = new CafeQueue();
 
-    for (Timeline.Minute minute : minuteStack){
+    for (int minuteIndex = 0; minuteIndex < timeline.size(); minuteIndex++){
+
+      Timeline.Minute minute = timeline.getMinute(minuteIndex);
 
       // Adds students to the queue
       for (int i = 0; i < minute.getStudentsAddedToQueue(); i++){
-        cafeQueue.addStudent(minute.getIndex());
+        cafeQueue.addStudent(minuteIndex);
       }
 
       // Adds the staff to the queue
       for (int i = 0; i < minute.getStaffAddedToQueue(); i++){
-        cafeQueue.addNonPushingInStaff(minute.getIndex());
+        cafeQueue.addNonPushingInStaff(minuteIndex);
       }
 
       // Removes the customers from the queue
       for (int i = 0; i < minute.getCustomersRemovedFromQueue(); i++){
-        cafeQueue.removeFromFront(minute.getIndex());
+        cafeQueue.removeFromFront(minuteIndex);
       }
+
     }
+
     return cafeQueue.getStatistics();
+
   }
-
-
-
-
-
-
   
 }
