@@ -1,6 +1,7 @@
 package cafe;
 
 import java.lang.Math;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -88,7 +89,7 @@ public class Statistics {
     return waitTimeList;
   }
 
-    public int getModeStudentWaitTime () {
+    public double getModeStudentWaitTime () {
 
       ArrayList<Integer> sortedStudentWaitTimeList = getSortedStudentWaitTimeList();
 
@@ -112,10 +113,10 @@ public class Statistics {
           currentAppearanceCount = 1;
         }
       }
-      return currentModeWaitTime;
+      return (double) currentModeWaitTime;
     }
 
-  public int getModeStaffWaitTime () {
+  public double getModeStaffWaitTime () {
 
     ArrayList<Integer> sortedStaffWaitTimeList = getSortedStaffWaitTimeList();
 
@@ -139,23 +140,23 @@ public class Statistics {
         currentAppearanceCount = 1;
       }
     }
-    return currentModeWaitTime;
+    return (double) currentModeWaitTime;
   }
 
-  public int getMedianStudentWaitTime () {
+  public double getMedianStudentWaitTime () {
 
     ArrayList<Integer> sortedStudentWaitTimeList = getSortedStudentWaitTimeList();
 
     int medianIndex = (int) Math.ceil(sortedStudentWaitTimeList.size() / 2);
-    return sortedStudentWaitTimeList.get(medianIndex);
+    return (double)sortedStudentWaitTimeList.get(medianIndex);
   }
 
-  public int getMedianStaffWaitTime () {
+  public double getMedianStaffWaitTime () {
     
     ArrayList<Integer> sortedStaffWaitTimeList = getSortedStaffWaitTimeList();
 
     int medianIndex = (int) Math.ceil(sortedStaffWaitTimeList.size() / 2);
-    return sortedStaffWaitTimeList.get(medianIndex);
+    return (double)sortedStaffWaitTimeList.get(medianIndex);
   }
 
   public double getMeanStudentWaitTime () { // Get the mean (average) time that students have waited
@@ -182,13 +183,65 @@ public class Statistics {
     return totalStaffWaitTime / staffList.size();
   }
 
-  public int getRangeOfStudentWaitTimes () {
+  public double getLowestStudentWaitTime () {
     ArrayList<Integer> sortedStudentWaitTimeList = getSortedStudentWaitTimeList();
-    return (sortedStudentWaitTimeList.get(sortedStudentWaitTimeList.size() - 1) - sortedStudentWaitTimeList.get(0));
+    return (double)(sortedStudentWaitTimeList.get(0));
   }
 
-  public int getRangeOfStaffWaitTimes () {
-    ArrayList<Integer> sortedStaffWaitTimeList = getSortedStaffWaitTimeList();
-    return (sortedStaffWaitTimeList.get(sortedStaffWaitTimeList.size() - 1) - sortedStaffWaitTimeList.get(0));
+  public double getGreatestStudentWaitTime () {
+    ArrayList<Integer> sortedStudentWaitTimeList = getSortedStudentWaitTimeList();
+    return (double)(sortedStudentWaitTimeList.get(sortedStudentWaitTimeList.size() - 1));
   }
+
+  public double getLowestStaffWaitTime () {
+    ArrayList<Integer> sortedStaffWaitTimeList = getSortedStaffWaitTimeList();
+    return (double)(sortedStaffWaitTimeList.get(0));
+  }
+
+  public double getGreatestStaffWaitTime () {
+    ArrayList<Integer> sortedStaffWaitTimeList = getSortedStaffWaitTimeList();
+    return (double)(sortedStaffWaitTimeList.get(sortedStaffWaitTimeList.size() - 1));
+  }
+
+  public double getRangeOfStudentWaitTimes () {
+    return (double)(getGreatestStudentWaitTime() - getLowestStudentWaitTime());
+  }
+
+  public double getRangeOfStaffWaitTimes () {
+    return (double) (getGreatestStaffWaitTime() - getLowestStaffWaitTime());
+  }
+
+  public void printStatistics () {
+
+    String format = "|%-20s|%-5s|%-20s|%-5s|%n"; // Used to show the tables format
+    /* % means that formatting will put text in that spot
+     * - means that it is justified on the left
+     * s means that it is a string
+     * f means that it is a double (float). The decimal formatting outputs a string so I use s in the place of f
+     * | are the lines that are printed on the side to make it look like a table
+     * %n finishes writing in the line
+     */
+
+    String titleFormat = "|%-26s|%-26s|%n";
+
+    DecimalFormat df = new DecimalFormat("#.#"); // Used to round all printed decimals to one decimal point
+
+    // Prints the table for student and staff
+    System.out.format("+--------------------------+--------------------------+\n");
+    System.out.format(titleFormat, "Student", "Staff");
+    System.out.format("+--------------------+-----+--------------------+-----+\n");
+    System.out.format(format, "Mean Wait Time", df.format(getMeanStudentWaitTime()), "Mean Wait Time", df.format(getMeanStaffWaitTime()));
+    System.out.format("+--------------------+-----+--------------------+-----+\n");
+    System.out.format(format, "Median Wait Time", df.format(getMedianStudentWaitTime()), "Median Wait Time", df.format(getMedianStaffWaitTime()));
+    System.out.format("+--------------------+-----+--------------------+-----+\n");
+    System.out.format(format, "Mode Wait Time", df.format(getModeStudentWaitTime()), "Mode Wait Time", df.format(getModeStaffWaitTime()));
+    System.out.format("+--------------------+-----+--------------------+-----+\n");
+    System.out.format(format, "Lowest Wait Time", df.format(getLowestStudentWaitTime()), "Lowest Wait Time", df.format(getLowestStaffWaitTime()));
+    System.out.format("+--------------------+-----+--------------------+-----+\n");
+    System.out.format(format, "Greatest Wait Time", df.format(getGreatestStudentWaitTime()), "Greatest Wait Time", df.format(getGreatestStaffWaitTime()));
+    System.out.format("+--------------------+-----+--------------------+-----+\n");
+    System.out.format(format, "Standard Deviation", df.format(getStudentStandardDeviation()), "Standard Deviation", df.format(getStaffStandardDeviation()));
+    System.out.format("+--------------------+-----+--------------------+-----+\n");
+  }
+
 }

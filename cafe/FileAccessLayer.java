@@ -32,10 +32,7 @@ public class FileAccessLayer {
 
       int customersServedCountInMinuteInCsv = Integer.parseInt(line.split(",")[3]);
       timeline.getMinute(minuteIndex).setCustomersRemovedFromQueue(customersServedCountInMinuteInCsv);
-
-      System.out.println(Integer.valueOf(minuteIndex) + ", " + Integer.valueOf(studentCountInMinuteInCsv) + ", " + Integer.valueOf(staffCountInMinuteInCsv) + ", " + Integer.valueOf(customersServedCountInMinuteInCsv));
-      System.out.println(Integer.valueOf(minuteIndex) + ", " + Integer.valueOf(timeline.getMinute(minuteIndex).getStudentsAddedToQueue()) + ", " + Integer.valueOf(timeline.getMinute(minuteIndex).getStaffAddedToQueue()) + ", " + Integer.valueOf(timeline.getMinute(minuteIndex).getCustomersRemovedFromQueue()));
-
+      
     }
 
     fileScanner.close();
