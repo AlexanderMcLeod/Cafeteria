@@ -30,9 +30,14 @@ public class CafeQueue {
   }
 
   public void addStaff(final int CURRENT_MINUTE, final boolean WILL_PUSH_IN) {
-    Staff newStaff = new Staff(true); // True means that they will push in
+    Staff newStaff = new Staff(WILL_PUSH_IN); // True means that they will push in
     newStaff.joinQueue(CURRENT_MINUTE); 
-    cafeQueue.addFirst(newStaff); // Added to the front because they pushed in
+    if (WILL_PUSH_IN) {
+      cafeQueue.addFirst(newStaff); // If they are pushing in, add them to the front
+      // They might end up pushing infront of other teachers though
+    } else {
+      cafeQueue.addLast(newStaff); // If they are not pushing in, add them to the back
+    }
   }
 
   public void removeManyFromFront (final int CURRENT_MINUTE, final int CUSTOMERS_TO_REMOVE_COUNT) {

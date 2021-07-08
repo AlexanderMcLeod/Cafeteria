@@ -23,7 +23,8 @@ public class Simulation {
 
     }
 
-    cafeQueue.getStatistics().setSizeOfQueue(cafeQueue.getCustomersStillQueued().size());
+    cafeQueue.getStatistics().setStudentQueueSize(Statistics.getStudentQueueSizeFromQueue(cafeQueue));
+    cafeQueue.getStatistics().setStaffQueueSize(Statistics.getStaffQueueSizeFromQueue(cafeQueue));
 
     return cafeQueue.getStatistics();
 

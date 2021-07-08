@@ -8,7 +8,8 @@ import java.util.Collections;
 public class Statistics {
 
   private ArrayList<Customer> servedCustomerList = new ArrayList<Customer>();
-  private int queueSize; 
+  private int studentQueueSize;
+  private int staffQueueSize;
 
   public void addCustomer (Customer customer) { // Adds the customer to the ArrayList
     servedCustomerList.add(customer);
@@ -39,6 +40,29 @@ public class Statistics {
     }
     return staffList;
   } 
+
+  public static int getStudentQueueSizeFromQueue (final CafeQueue CAFE_QUEUE) {
+
+    int studentCount = 0;
+
+    for (Customer customer : CAFE_QUEUE.getCustomersStillQueued()) {
+      if (customer instanceof Student){
+        studentCount++;
+      }
+    }
+    return studentCount;
+  }
+
+  public static int getStaffQueueSizeFromQueue (final CafeQueue CAFE_QUEUE) {
+    int staffCount = 0;
+
+    for (Customer customer : CAFE_QUEUE.getCustomersStillQueued()) {
+      if (customer instanceof Staff){
+        staffCount++;
+      }
+    }
+    return staffCount;
+  }
 
   public double getStudentStandardDeviation () {
 
@@ -212,12 +236,20 @@ public class Statistics {
     return (double) (getGreatestStaffWaitTime() - getLowestStaffWaitTime());
   }
 
-  public int getSizeOfQueue () {
-    return queueSize;
+  public int getStudentQueueSize () {
+    return studentQueueSize;
   }
 
-  public void setSizeOfQueue (final int NEW_SIZE) {
-    queueSize = NEW_SIZE;
+  public void setStudentQueueSize (final int NEW_SIZE) {
+    studentQueueSize = NEW_SIZE;
+  }
+
+  public int getStaffQueueSize () {
+    return staffQueueSize;
+  }
+
+  public void setStaffQueueSize (final int NEW_SIZE) {
+    staffQueueSize = NEW_SIZE;
   }
 
 
@@ -251,9 +283,10 @@ public class Statistics {
     System.out.format(format, "Greatest Wait Time", df.format(getGreatestStudentWaitTime()), "Greatest Wait Time", df.format(getGreatestStaffWaitTime()));
     System.out.format("+--------------------+-----+--------------------+-----+\n");
     System.out.format(format, "Standard Deviation", df.format(getStudentStandardDeviation()), "Standard Deviation", df.format(getStaffStandardDeviation()));
-    System.out.format("+--------------------------+--------------------------+\n");
-    System.out.format(titleFormat, "Unserved Customers", df.format(getSizeOfQueue()));
-    System.out.format("+--------------------------+--------------------------+\n");
+    System.out.format("+--------------------+-----+--------------------+-----+\n");
+    System.out.format(format, "Unserved Students", df.format(getStudentQueueSize()), "Unserved Staff", df.format(getStaffQueueSize()));
+    System.out.format("+--------------------+-----+--------------------+-----+\n");
+
   }
 
 }
