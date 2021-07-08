@@ -8,6 +8,7 @@ import java.util.Collections;
 public class Statistics {
 
   private ArrayList<Customer> servedCustomerList = new ArrayList<Customer>();
+  private int queueSize; 
 
   public void addCustomer (Customer customer) { // Adds the customer to the ArrayList
     servedCustomerList.add(customer);
@@ -211,6 +212,15 @@ public class Statistics {
     return (double) (getGreatestStaffWaitTime() - getLowestStaffWaitTime());
   }
 
+  public int getSizeOfQueue () {
+    return queueSize;
+  }
+
+  public void setSizeOfQueue (final int NEW_SIZE) {
+    queueSize = NEW_SIZE;
+  }
+
+
   public void printStatistics () {
 
     String format = "|%-20s|%-5s|%-20s|%-5s|%n"; // Used to show the tables format
@@ -241,7 +251,9 @@ public class Statistics {
     System.out.format(format, "Greatest Wait Time", df.format(getGreatestStudentWaitTime()), "Greatest Wait Time", df.format(getGreatestStaffWaitTime()));
     System.out.format("+--------------------+-----+--------------------+-----+\n");
     System.out.format(format, "Standard Deviation", df.format(getStudentStandardDeviation()), "Standard Deviation", df.format(getStaffStandardDeviation()));
-    System.out.format("+--------------------+-----+--------------------+-----+\n");
+    System.out.format("+--------------------------+--------------------------+\n");
+    System.out.format(titleFormat, "Unserved Customers", df.format(getSizeOfQueue()));
+    System.out.format("+--------------------------+--------------------------+\n");
   }
 
 }

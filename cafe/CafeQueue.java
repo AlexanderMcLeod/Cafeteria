@@ -54,6 +54,10 @@ public class CafeQueue {
     cafeQueue.removeFirst(); // Removes the customer from the queue
   }
 
+  public LinkedList<Customer> getCustomersStillQueued () {
+    return cafeQueue;
+  }
+
   public Statistics getStatistics () { 
     /* This is so that the statistics class can get the statistics from the cafeQueue
      * and then the app class can call the printStatistics function on it

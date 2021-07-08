@@ -13,6 +13,7 @@ public class RandomTimeline {
 
     final int MAX_STUDENTS_PER_MINUTE = 6;
     final int MAX_STAFF_PER_MINUTE = 5;
+    final int MAX_CUSTOMERS_SERVED_PER_MINUTE = 6;
 
     int personCount = 0;
     
@@ -28,7 +29,7 @@ public class RandomTimeline {
       timeline.getMinute(minuteIndex).setStaffAddedToQueue(randomStaffCount);
       personCount += randomStaffCount;
 
-      int randomCustomersRemovedCount = new Random().nextInt(personCount);
+      int randomCustomersRemovedCount = new Random().nextInt(Math.min(MAX_CUSTOMERS_SERVED_PER_MINUTE, personCount));
       timeline.getMinute(minuteIndex).setCustomersRemovedFromQueue(randomCustomersRemovedCount);
       personCount -= randomCustomersRemovedCount;
 
