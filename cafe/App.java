@@ -2,7 +2,6 @@ package cafe;
 
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import java.text.DecimalFormat;
 
 public class App {
 
@@ -47,21 +46,21 @@ public class App {
 
     Simulation sim = new Simulation(timeline); // Creates a simulation using the timeline that was openend
     
-    Statistics pushedIn = sim.getPushedInSimulation(); // Gets the statistics for the simulation
+    Statistics pushedIn = sim.getSimulation(true); // Gets the statistics for the simulation (true means pushing in)
     System.out.println("\nQueue With Staff Pushing In");
     pushedIn.printStatistics();
     
-    Statistics notPushedIn = sim.getNotPushedInSimulation();
+    Statistics notPushedIn = sim.getSimulation(false); // False means the staff are not pushing in
     System.out.println("\nQueue Without Staff Pushing In");
     notPushedIn.printStatistics();
 
-    long endTime = System.nanoTime();
+    long endTime = System.nanoTime(); // Stops timer
 
     int convertToMillisecondsFromNanoSeconds = 1000000;
-    long duration = (endTime - startTime) / convertToMillisecondsFromNanoSeconds;
+    long duration = (endTime - startTime) / convertToMillisecondsFromNanoSeconds; // Calculates execution time in nanoseconds and converts to ms
 
     System.out.println("");
-    System.out.println("Calculated in " + Long.valueOf(duration) + "ms");
+    System.out.println("Simulated and Calculated in " + Long.valueOf(duration) + "ms"); // Prints how long it took to run simulation
     System.out.println("");
   }
 

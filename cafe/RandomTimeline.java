@@ -8,11 +8,11 @@ public class RandomTimeline {
 
     Timeline timeline = new Timeline ();
 
-    int minutesInALunchTime = 60;
-    int minuteCount = new Random().nextInt(minutesInALunchTime); 
+    final int MINUTES_IN_A_LUNCH_TIME = 60;
+    final int minuteCount = new Random().nextInt(MINUTES_IN_A_LUNCH_TIME); 
 
-    int maxStudentsPerMinute = 6;
-    int maxStaffPerMinute = 5;
+    final int MAX_STUDENTS_PER_MINUTE = 6;
+    final int MAX_STAFF_PER_MINUTE = 5;
 
     int personCount = 0;
     
@@ -20,11 +20,11 @@ public class RandomTimeline {
 
       timeline.addNewMinute();
 
-      int randomStudentCount = new Random().nextInt(maxStudentsPerMinute);
+      int randomStudentCount = new Random().nextInt(MAX_STUDENTS_PER_MINUTE);
       timeline.getMinute(minuteIndex).setStudentsAddedToQueue(randomStudentCount);
       personCount += randomStudentCount;
 
-      int randomStaffCount = new Random().nextInt(maxStaffPerMinute);
+      int randomStaffCount = new Random().nextInt(MAX_STAFF_PER_MINUTE);
       timeline.getMinute(minuteIndex).setStaffAddedToQueue(randomStaffCount);
       personCount += randomStaffCount;
 
@@ -34,7 +34,8 @@ public class RandomTimeline {
 
     }
 
-    timeline.getMinute(minuteCount-1).setCustomersRemovedFromQueue(personCount);
+    int minuteIndex = minuteCount - 1;
+    timeline.getMinute(minuteIndex).setCustomersRemovedFromQueue(personCount);
     return timeline;
     
   }

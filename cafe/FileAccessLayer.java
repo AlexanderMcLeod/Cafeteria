@@ -6,12 +6,12 @@ import java.util.Scanner;
 
 public class FileAccessLayer {
 
-  public static Timeline openFile (final String path) throws FileNotFoundException {
+  public static Timeline openFile (final String PATH) throws FileNotFoundException {
 
     Timeline timeline = new Timeline (); // Empty timeline to be read into
 
-    File file = new File(path); // File that is being read
-    Scanner fileScanner = new Scanner(file); // Scanner for reading the file
+    final File FILE = new File(PATH); // File that is being read
+    Scanner fileScanner = new Scanner(FILE); // Scanner for reading the file
 
     fileScanner.nextLine(); // Skips the headers of the csv file
 

@@ -9,7 +9,7 @@ public class Simulation {
     timeline = newTimeline;
   }
 
-  public Statistics getPushedInSimulation () {
+  public Statistics getSimulation (final boolean STAFF_WILL_PUSH_IN) {
 
     CafeQueue cafeQueue = new CafeQueue();
 
@@ -17,49 +17,9 @@ public class Simulation {
 
       Timeline.Minute minute = timeline.getMinute(minuteIndex);
 
-      // Adds students to the queue
-      for (int i = 0; i < minute.getStudentsAddedToQueue(); i++){
-        cafeQueue.addStudent(minuteIndex);
-      }
-
-      // Adds the staff to the queue
-      for (int i = 0; i < minute.getStaffAddedToQueue(); i++){
-        cafeQueue.addPushingInStaff(minuteIndex);
-      }
-
-      // Removes the customers from the queue
-      for (int i = 0; i < minute.getCustomersRemovedFromQueue(); i++){
-        cafeQueue.removeFromFront(minuteIndex);
-      }
-
-    }
-
-    return cafeQueue.getStatistics();
-
-  }
-
-  public Statistics getNotPushedInSimulation () {
-
-    CafeQueue cafeQueue = new CafeQueue();
-
-    for (int minuteIndex = 0; minuteIndex < timeline.size(); minuteIndex++){
-
-      Timeline.Minute minute = timeline.getMinute(minuteIndex);
-
-      // Adds students to the queue
-      for (int i = 0; i < minute.getStudentsAddedToQueue(); i++){
-        cafeQueue.addStudent(minuteIndex);
-      }
-
-      // Adds the staff to the queue
-      for (int i = 0; i < minute.getStaffAddedToQueue(); i++){
-        cafeQueue.addNonPushingInStaff(minuteIndex);
-      }
-
-      // Removes the customers from the queue
-      for (int i = 0; i < minute.getCustomersRemovedFromQueue(); i++){
-        cafeQueue.removeFromFront(minuteIndex);
-      }
+      cafeQueue.addManyStudents(minuteIndex, minute.getStudentsAddedToQueue());
+      cafeQueue.addManyStaff(minuteIndex, STAFF_WILL_PUSH_IN, minute.getStaffAddedToQueue());
+      cafeQueue.removeManyFromFront(minuteIndex, minute.getCustomersRemovedFromQueue());
 
     }
 
