@@ -30,6 +30,12 @@ public class CafeQueue {
   }
 
   public void removeFromFront (final int currentMinute) {
+
+    /* Checks whether there is a student to remove */
+    if (cafeQueue.isEmpty()){
+      return; // Does not try to remove a customer if the queue is empty
+    }
+
     cafeQueue.peek().leaveQueue(currentMinute); // Stops the customers timer
     cafeStatistics.addCustomer(cafeQueue.peek()); // Adds the customer into statistics
     cafeQueue.removeFirst(); // Removes the customer from the queue
