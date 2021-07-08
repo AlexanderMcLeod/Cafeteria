@@ -5,12 +5,12 @@ public class Customer {
   private int minuteJoined;
   private int minuteLeft;
 
-  public void joinQueue (final int currentMinute) { // Saves the time that they joined the queue
-    minuteJoined = currentMinute;
+  public void joinQueue (final int CURRENT_MINUTE) { // Saves the time that they joined the queue
+    minuteJoined = CURRENT_MINUTE;
   }
 
-  public void leaveQueue (final int currentMinute) { // Saves the time that they left the queue
-    minuteLeft = currentMinute;
+  public void leaveQueue (final int CURRENT_MINUTE) { // Saves the time that they left the queue
+    minuteLeft = CURRENT_MINUTE;
   }
 
   public int getWaitTime () { // Calculate how long they waited
@@ -23,7 +23,7 @@ public class Customer {
     return willPushIn;
   }
 
-  /* Set function only in staff class
+  /* Set function for willPushinIn only in staff (child) class
    * because student cannot change this
    * therefore cannot be in customer class 
    */
