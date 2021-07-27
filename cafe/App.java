@@ -12,7 +12,7 @@ public class App {
     String answer;
 
     // Cultural Implication Disclaimer
-    System.out.println("Culutral Sensitivity Warning: May show offensive content");
+    System.out.println("Culutral sensitivity warning: May show offensive content");
 
     while (true) {
 
