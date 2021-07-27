@@ -8,7 +8,7 @@ public class RandomTimeline {
 
     Timeline timeline = new Timeline ();
 
-    final int MINUTES_IN_A_LUNCH_TIME = 60;
+    final int MINUTES_IN_A_LUNCH_TIME = 60; // Maximum amount of time in one randomly generated timeline
     final int minuteCount = new Random().nextInt(MINUTES_IN_A_LUNCH_TIME); 
 
     final int MAX_STUDENTS_PER_MINUTE = 6;
