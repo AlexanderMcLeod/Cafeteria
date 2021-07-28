@@ -15,21 +15,31 @@ public class RandomTimeline {
     final int MAX_STAFF_PER_MINUTE = 5;
     final int MAX_CUSTOMERS_SERVED_PER_MINUTE = 6;
 
+    int totalStudentsAddedCount = 0;
+    int totalStaffAddedCount = 0;
+
     int personCount = 0;
     
+
     for (int minuteIndex = 0; minuteIndex < minuteCount; minuteIndex++) {
 
       timeline.addNewMinute(); // Adds a new minute to the timeline
 
       int randomStudentCount = new Random().nextInt(MAX_STUDENTS_PER_MINUTE); // Randomly chooses how many students are being added in that minute
       timeline.getMinute(minuteIndex).setStudentsAddedToQueue(randomStudentCount); // Sets that random number in the timeline
+      totalStudentsAddedCount += randomStudentCount; // Updates the amount of students that have been added in total
       personCount += randomStudentCount; // Updates the amount of people currently in the queue
 
       int randomStaffCount = new Random().nextInt(MAX_STAFF_PER_MINUTE); // Randomly chooses how many staff are being added to the queue in that minute
       timeline.getMinute(minuteIndex).setStaffAddedToQueue(randomStaffCount); // Sets that random number in the timeline
+      totalStaffAddedCount += randomStaffCount; // Updates the amount of staff that have been added in total
       personCount += randomStaffCount; // Updates the amount of people currently in the queue
 
       int randomCustomersRemovedCount = new Random().nextInt(Math.min(MAX_CUSTOMERS_SERVED_PER_MINUTE, personCount)); // Randomly chooses how many people are being served in that minute
+      
+      System.out.println("MAX_CUSTOMERS_SERVED_PER_MINUTE: " + MAX_CUSTOMERS_SERVED_PER_MINUTE);
+      System.out.println("personCount: " + personCount);
+      
       timeline.getMinute(minuteIndex).setCustomersRemovedFromQueue(randomCustomersRemovedCount); // Sets that random number in the timeline
       personCount -= randomCustomersRemovedCount; // Updates the amount of people currently in the queue
 
@@ -37,7 +47,12 @@ public class RandomTimeline {
 
     int minuteIndex = minuteCount - 1; 
     timeline.getMinute(minuteIndex).setCustomersRemovedFromQueue(personCount); // If there are still people who have not been served, serve all of them
-    return timeline; 
+    
+    if (totalStaffAddedCount == 0 || totalStudentsAddedCount == 0) { // Makes sure that both students and staff have atleast one person
+      return createRandomTimeline(); // Tries to create a new timeline if they do not 
+    } else {
+      return timeline;
+    }
     
   }
 

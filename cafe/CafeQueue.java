@@ -24,7 +24,7 @@ public class CafeQueue {
    */
 
   public void addStudent (final int CURRENT_MINUTE) { 
-    
+
     Student newStudent = new Student(); // Instantiates new student
     newStudent.joinQueue(CURRENT_MINUTE); // Saves what minute they joined the queue
 
@@ -67,21 +67,24 @@ public class CafeQueue {
     /* Checks whether there is a student to remove */
 
     if (!cafeQueuePushedIn.isEmpty()) {
+
       cafeQueuePushedIn.peek().leaveQueue(CURRENT_MINUTE); // Stops the customers timer
       cafeStatistics.addCustomer(cafeQueuePushedIn.peek()); // Adds the customer into statistics
       cafeQueuePushedIn.removeFirst(); // Removes the customer from the queue
-    } 
-    
-    if (cafeQueuePushedIn.isEmpty() && !cafeQueueNotPushedIn.isEmpty()) {
+      return; // So that the other if statements are not run
+
+    } else if (cafeQueuePushedIn.isEmpty() && !cafeQueueNotPushedIn.isEmpty()) {
+
       cafeQueueNotPushedIn.peek().leaveQueue(CURRENT_MINUTE); // Stops the customers timer
       cafeStatistics.addCustomer(cafeQueueNotPushedIn.peek()); // Adds the customer into statistics
       cafeQueueNotPushedIn.removeFirst(); // Removes the customer from the queue
-    }
+      return; // So that the other if statement is not run
 
+    } else if (cafeQueuePushedIn.isEmpty() && cafeQueueNotPushedIn.isEmpty()){
 
-    if (cafeQueuePushedIn.isEmpty() && cafeQueueNotPushedIn.isEmpty()){
       System.out.println("Tried serving a customer when the queue was empty in minute " + CURRENT_MINUTE);
-      return; // Does not try to remove a customer if the queue is empty
+      return; 
+
     }
 
   }

@@ -15,28 +15,35 @@ public class FileAccessLayer {
 
     fileScanner.nextLine(); // Skips the headers of the csv file
 
-    while (fileScanner.hasNextLine()) { 
+    while (fileScanner.hasNextLine()) { // While the file has another line
 
-      String line = fileScanner.nextLine();
-      int minuteIndex = Integer.parseInt(line.split(",")[0]); 
+      String line = fileScanner.nextLine(); // Reads and saves the line
+      int minuteIndex = Integer.parseInt(line.split(",")[0]); // Finds what minute that line has data for
 
-      while (minuteIndex > timeline.size() - 1){
+      /* Adds minutes so that the minute it is trying to edit 
+      is in the timeline at all
+      */
+
+      while (minuteIndex > timeline.size() - 1){ 
         timeline.addNewMinute();
       }
 
+      // Sets the student count of the minute to the one in the file
       int studentCountInMinuteInCsv = Integer.parseInt(line.split(",")[1]);
-      timeline.getMinute(minuteIndex).setStudentsAddedToQueue(studentCountInMinuteInCsv);
+      timeline.getMinute(minuteIndex).setStudentsAddedToQueue(studentCountInMinuteInCsv); 
 
+      // Sets the staff count of the minute to the one in the file
       int staffCountInMinuteInCsv = Integer.parseInt(line.split(",")[2]);
       timeline.getMinute(minuteIndex).setStaffAddedToQueue(staffCountInMinuteInCsv);
 
+      // Sets the customers served count of the minute to the one in the file
       int customersServedCountInMinuteInCsv = Integer.parseInt(line.split(",")[3]);
       timeline.getMinute(minuteIndex).setCustomersRemovedFromQueue(customersServedCountInMinuteInCsv);
       
     }
 
-    fileScanner.close();
-    return timeline;
+    fileScanner.close(); // Stops reading the file
+    return timeline; // Returns the timeline
 
     }
     
