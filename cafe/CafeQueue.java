@@ -27,12 +27,7 @@ public class CafeQueue {
 
     Student newStudent = new Student(); // Instantiates new student
     newStudent.joinQueue(CURRENT_MINUTE); // Saves what minute they joined the queue
-
-    if (newStudent.getWillPushIn()) {
-      cafeQueuePushedIn.addLast(newStudent);
-    } else if (!newStudent.getWillPushIn()) {
-      cafeQueueNotPushedIn.addLast(newStudent); // Adds them to the end of the queue
-    }
+    cafeQueueNotPushedIn.addLast(newStudent); // Adds them to the end of the queue
 
   }
 
@@ -48,9 +43,9 @@ public class CafeQueue {
     Staff newStaff = new Staff(WILL_PUSH_IN); // True means that they will push in
     newStaff.joinQueue(CURRENT_MINUTE); // Start the timer that they joined in
 
-    if (newStaff.getWillPushIn()) {
+    if (WILL_PUSH_IN) {
       cafeQueuePushedIn.addLast(newStaff); // If they are pushing in, add them to the end of the pushed in queue
-    } else if (!newStaff.getWillPushIn()) {
+    } else if (!WILL_PUSH_IN) {
       cafeQueueNotPushedIn.addLast(newStaff); // If they are not pushing in, add them to the back 
     }
 
@@ -64,30 +59,24 @@ public class CafeQueue {
 
   public void removeFromFront (final int CURRENT_MINUTE) {
 
-    /* Checks whether there is a student to remove */
+    LinkedList<Customer> cafeQueueCombined = getCustomersStillQueued();
 
-    if (!cafeQueuePushedIn.isEmpty()) {
+    /* Checks whether there is a customer to remove */
 
-      cafeQueuePushedIn.peek().leaveQueue(CURRENT_MINUTE); // Stops the customers timer
-      cafeStatistics.addCustomer(cafeQueuePushedIn.peek()); // Adds the customer into statistics
-      cafeQueuePushedIn.removeFirst(); // Removes the customer from the queue
-      return; // So that the other if statements are not run
-
-    } else if (cafeQueuePushedIn.isEmpty() && !cafeQueueNotPushedIn.isEmpty()) {
-
-      cafeQueueNotPushedIn.peek().leaveQueue(CURRENT_MINUTE); // Stops the customers timer
-      cafeStatistics.addCustomer(cafeQueueNotPushedIn.peek()); // Adds the customer into statistics
-      cafeQueueNotPushedIn.removeFirst(); // Removes the customer from the queue
-      return; // So that the other if statement is not run
-
-    } else if (cafeQueuePushedIn.isEmpty() && cafeQueueNotPushedIn.isEmpty()){
-
-      System.out.println("Tried serving a customer when the queue was empty in minute " + CURRENT_MINUTE);
-      return; 
-
+    if (cafeQueueCombined.isEmpty()) {
+      System.out.println("Tried to serve customer that was not there in minute " + CURRENT_MINUTE);
     }
 
-  }
+      cafeQueueCombined.peek().leaveQueue(CURRENT_MINUTE); // Stops the customers timer
+      cafeStatistics.addCustomer(cafeQueueCombined.peek()); // Adds the customer into statistics
+
+      if (cafeQueueCombined.peek().getWillPushIn()) {
+        cafeQueuePushedIn.removeFirst();
+      } else if (!cafeQueueCombined.peek().getWillPushIn()) {
+        cafeQueueNotPushedIn.removeFirst();
+      }
+
+    }
 
   public LinkedList<Customer> getCustomersStillQueued () {
 

@@ -17,7 +17,7 @@ public class Customer {
     return (minuteLeft - minuteJoined); // Returns the minute that they joined the queue subtracted from the minute they left
   }
 
-  protected boolean willPushIn; // Will the customer push into the front of the queue
+  protected boolean willPushIn = false; // Will the customer push into the front of the queue
 
   public boolean getWillPushIn () {
     return willPushIn;
