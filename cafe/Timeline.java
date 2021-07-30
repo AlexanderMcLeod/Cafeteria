@@ -5,23 +5,13 @@ import java.util.Stack;
 public class Timeline {
 
   private Stack<Minute> minuteStack = new Stack<Minute>();
-
-  public int size () { // Returns the size of the timeline
-    return minuteStack.size();
+ 
+  public Stack<Minute> getMinuteStack () {
+    return minuteStack;
   }
 
-  public void addNewMinute () { // Adds a minute to the end of the timeline with the default values of 0 for everything
-    int newIndex = minuteStack.size(); // Gets the index that the new minute would be to pass into its constructor
-    Minute newMinute = new Minute(newIndex, 0, 0, 0); // Constructs it with blank values
-    minuteStack.add(newMinute);
-  }
-
-  public void removeLastMinute () { // Removes the minute at the end of the timeline
-    minuteStack.pop();
-  }
-
-  public Minute getMinute (final int index){
-    return minuteStack.get(index);
+  public void setMinuteStack (final Stack<Minute> NEW_MINUTE_STACK ) {
+    minuteStack = NEW_MINUTE_STACK;
   }
 
   public static class Minute {

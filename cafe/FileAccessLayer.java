@@ -24,21 +24,21 @@ public class FileAccessLayer {
       is in the timeline at all
       */
 
-      while (minuteIndex > timeline.size() - 1){ 
-        timeline.addNewMinute();
+      while (minuteIndex > timeline.getMinuteStack().size() - 1){ 
+        timeline.getMinuteStack().add(new Timeline.Minute(minuteIndex,0,0,0));
       }
 
       // Sets the student count of the minute to the one in the file
       int studentCountInMinuteInCsv = Integer.parseInt(line.split(",")[1]);
-      timeline.getMinute(minuteIndex).setStudentsAddedToQueue(studentCountInMinuteInCsv); 
+      timeline.getMinuteStack().get(minuteIndex).setStudentsAddedToQueue(studentCountInMinuteInCsv); 
 
       // Sets the staff count of the minute to the one in the file
       int staffCountInMinuteInCsv = Integer.parseInt(line.split(",")[2]);
-      timeline.getMinute(minuteIndex).setStaffAddedToQueue(staffCountInMinuteInCsv);
+      timeline.getMinuteStack().get(minuteIndex).setStaffAddedToQueue(staffCountInMinuteInCsv);
 
       // Sets the customers served count of the minute to the one in the file
       int customersServedCountInMinuteInCsv = Integer.parseInt(line.split(",")[3]);
-      timeline.getMinute(minuteIndex).setCustomersRemovedFromQueue(customersServedCountInMinuteInCsv);
+      timeline.getMinuteStack().get(minuteIndex).setCustomersRemovedFromQueue(customersServedCountInMinuteInCsv);
       
     }
 

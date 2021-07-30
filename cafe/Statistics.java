@@ -91,8 +91,8 @@ public class Statistics {
     ArrayList<Customer> staffList = getStaffList();
 
     // Checks if any staff were served at all
-    if (staffList.size() == 0) {
-      return 0;
+    if (staffList.isEmpty()) {
+      return -1;
     }
 
     for (Customer customer : staffList) {
@@ -189,7 +189,7 @@ public class Statistics {
       return 0;
     }
 
-    int medianIndex = (int) Math.ceil(sortedStudentWaitTimeList.size() / 2);
+    int medianIndex = (int) Math.ceil(sortedStudentWaitTimeList.size() / 2); // Half way and rounded up
 
     return (double)sortedStudentWaitTimeList.get(medianIndex);
   }
@@ -231,10 +231,11 @@ public class Statistics {
     ArrayList<Customer> staffList = getStaffList();
 
     // Checks that atleast one staff has been served and returns 0 if not
-    if (staffList.size() == 0) {
-      return 0;
+    if (staffList.isEmpty()) {
+      return -1;
     }
 
+    // For every customer in the staff list add their wait time to the total wait time
     for (Customer customer : staffList) {
       totalStaffWaitTime += customer.getWaitTime();
     }
@@ -245,8 +246,8 @@ public class Statistics {
     ArrayList<Integer> sortedStudentWaitTimeList = getSortedStudentWaitTimeList();
 
     // Checks that atleast one staff has been served and returns 0 if not
-    if (sortedStudentWaitTimeList.size() == 0) {
-      return 0;
+    if (sortedStudentWaitTimeList.isEmpty()) {
+      return -1;
     }
 
     return (double) (sortedStudentWaitTimeList.get(0));
@@ -256,8 +257,8 @@ public class Statistics {
     ArrayList<Integer> sortedStudentWaitTimeList = getSortedStudentWaitTimeList();
 
     // Checks that atleast one student has been served and returns 0 if not
-    if (sortedStudentWaitTimeList.size() == 0) {
-      return 0;
+    if (sortedStudentWaitTimeList.isEmpty()) {
+      return 1;
     }
 
     return (double) (sortedStudentWaitTimeList.get(sortedStudentWaitTimeList.size() - 1));
@@ -268,8 +269,8 @@ public class Statistics {
     ArrayList<Integer> sortedStaffWaitTimeList = getSortedStaffWaitTimeList();
 
     // Checks that atleast one student has been served and returns 0 if not
-    if (sortedStaffWaitTimeList.size() == 0) {
-      return 0;
+    if (sortedStaffWaitTimeList.isEmpty()) {
+      return -1;
     }
 
     return (double) (sortedStaffWaitTimeList.get(0));
@@ -280,8 +281,8 @@ public class Statistics {
     ArrayList<Integer> sortedStaffWaitTimeList = getSortedStaffWaitTimeList();
 
     // Checks that atleast one student has been served and returns 0 if not
-    if (sortedStaffWaitTimeList.size() == 0) {
-      return 0;
+    if (sortedStaffWaitTimeList.isEmpty()) {
+      return -1;
     }
 
     return (double) (sortedStaffWaitTimeList.get(sortedStaffWaitTimeList.size() - 1));
