@@ -27,16 +27,17 @@ public class App {
 
       if (answer.toLowerCase().equals("open")) { // If the user said they would like to open a file
 
+        System.out.println("Enter file's location"); // Asks for the location of the file
+        sc.reset(); // Resets it so previous writing does not interfere with new input
+        String path = sc.nextLine(); // Gets the file path
+
+        // Asks whether they have permission to use the data before use
         System.out.println("If you are using data that was collected from real staff and students, have you been provided with the permission from those real staff and students to do so");
         
         sc.reset(); // Resets it so previous writing does not interfere with new input
         String isDataCollectedWithPermission = sc.nextLine(); // Gets answer to previous question
 
         if (isDataCollectedWithPermission.toLowerCase().contains("y")) { // Did the staff and students permit their data to be used
-
-          System.out.println("Enter file's location"); // Asks for the location of the file
-          sc.reset(); // Resets it so previous writing does not interfere with new input
-          String path = sc.nextLine(); // Gets the file path
 
           timeline = FileAccessLayer.openFile(path); // Opens the file of the path the user inputted and transform it into
           // a timeline data structure
@@ -59,17 +60,17 @@ public class App {
 
   public static void openFile(Timeline timeline) {
 
-    long startTime = System.nanoTime(); // Starts timer
+    long startTime = System.nanoTime(); // Starts timer for how long the simulation took
 
     Simulation sim = new Simulation(timeline); // Creates a simulation using the timeline that was openend
 
     Statistics pushedIn = sim.getSimulation(true); // Gets the statistics for the simulation (true means pushing in)
     System.out.println("\nQueue With Staff Pushing In");
-    pushedIn.printStatistics();
+    pushedIn.printStatistics(); // Print the statistics for the simulation in the pretty box
 
     Statistics notPushedIn = sim.getSimulation(false); // False means the staff are not pushing in
     System.out.println("\nQueue Without Staff Pushing In");
-    notPushedIn.printStatistics();
+    notPushedIn.printStatistics(); // Print the statistics for the simulation in the pretty box
 
     long endTime = System.nanoTime(); // Stops timer
 
