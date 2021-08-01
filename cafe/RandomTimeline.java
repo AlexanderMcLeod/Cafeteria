@@ -37,9 +37,6 @@ public class RandomTimeline {
       totalStaffAddedCount += randomStaffCount; // Updates the amount of staff that have been added in total
       personCount += randomStaffCount; // Updates the amount of people currently in the queue
 
-      System.out.println("MAX_CUSTOMERS_SERVED_PER_MINUTE: " + MAX_CUSTOMERS_SERVED_PER_MINUTE);
-      System.out.println("personCount: " + personCount);
-
       int randomCustomersRemovedCount = new Random().nextInt(Math.min(MAX_CUSTOMERS_SERVED_PER_MINUTE, personCount)); // Randomly chooses how many people are being served in that minute
       
       minToBeAdded.setCustomersRemovedFromQueue(randomCustomersRemovedCount); // Sets that random number in the timeline
@@ -52,8 +49,6 @@ public class RandomTimeline {
     if (totalStaffAddedCount == 0 || totalStudentsAddedCount == 0) { // Makes sure that both students and staff have atleast one person
       return createRandomTimeline(); // Tries to create a new timeline if they do not 
     } else {
-      System.out.println("Total staff added count: " + totalStaffAddedCount);
-      System.out.println("Total student added count: " + totalStudentsAddedCount);
       return timeline;
     }
     
