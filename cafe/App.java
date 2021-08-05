@@ -18,44 +18,59 @@ public class App {
 
       System.out.println("(OPEN) file, (GENERATE) random or (EXIT)"); // Asks the user what they would like to do
 
-      sc.reset(); // Resets it so previous writing does not interfere with new input
+      sc = new Scanner(System.in); // Resets it so previous writing does not interfere with new input
       answer = sc.nextLine(); // Gets the users input
 
-      if (answer.toLowerCase().equals("exit")) { // If the user types close, leave the while loop
+      if (answer.toLowerCase().contains("open") && answer.toLowerCase().contains("generate")) {
+        System.out.println("You cannot open and generate a file at the same time");
+        continue; // Ends specific iteration of the loop
+      }
+
+      if (answer.toLowerCase().contains("exit")) { // If the user types close, leave the while loop
         break;
       }
 
-      if (answer.toLowerCase().equals("open")) { // If the user said they would like to open a file
-
-        System.out.println("Enter file's location"); // Asks for the location of the file
-        sc.reset(); // Resets it so previous writing does not interfere with new input
-        String path = sc.nextLine(); // Gets the file path
-
-        // Asks whether they have permission to use the data before use
-        System.out.println("If you are using data that was collected from real staff and students, have you been provided with the permission from those real staff and students to do so");
-        
-        sc.reset(); // Resets it so previous writing does not interfere with new input
-        String isDataCollectedWithPermission = sc.nextLine(); // Gets answer to previous question
-
-        if (isDataCollectedWithPermission.toLowerCase().contains("y")) { // Did the staff and students permit their data to be used
-
-          timeline = FileAccessLayer.openFile(path); // Opens the file of the path the user inputted and transform it into
-          // a timeline data structure
-
-          openFile(timeline); // Runs the program on the timeline that the user opened
-
-        } else {
-          System.out.println("Any data collected on real staff and students must only be used with the permission of the real staff and students, whose data was collected");
-        }
-
+      if (answer.toLowerCase().contains("open")) { // If the user said they would like to open a file
+        selectedOpen(sc);
       }
 
-      if (answer.toLowerCase().equals("generate")) { // If the user typed in generate
+      if (answer.toLowerCase().contains("generate")) { // If the user typed in generate
         timeline = RandomTimeline.createRandomTimeline(); // Creates a random timeline
         openFile(timeline); // Runs the program on the randomly generated timeline
       }
     }
-    sc.close(); // Closes the scanner for inputting text
+  }
+
+  public static void selectedOpen (Scanner sc) throws FileNotFoundException {;
+
+    System.out.println("Enter file's location"); // Asks for the location of the file
+    sc.reset(); // Resets it so previous writing does not interfere with new input
+    String path = sc.nextLine(); // Gets the file path
+
+    // Asks whether they have permission to use the data before use
+    System.out.println("If you are using data that was collected from real staff and students, have you been provided with the permission from those real staff and students to do so");
+    
+    sc.reset(); // Resets it so previous writing does not interfere with new input
+    String isDataCollectedWithPermission = sc.nextLine(); // Gets answer to previous question
+
+    if (isDataCollectedWithPermission.toLowerCase().contains("y")) { // Did the staff and students permit their data to be used
+
+      Timeline timeline;
+
+      try {
+        timeline = FileAccessLayer.openFile(path); // Opens the file of the path the user inputted and transform it into
+        // a timeline data     structure
+      } catch (FileNotFoundException e) {
+        System.out.println("Could not find file directory: " + path + ", please try again (cap-sensitive)");
+        selectedOpen(sc);
+        return;
+      }
+
+      openFile(timeline); // Runs the program on the timeline that the user opened
+
+    } else {
+      System.out.println("Any data collected on real staff and students must only be used with the permission of the real staff and students, whose data was collected");
+    }
   }
 
   public static void openFile(Timeline timeline) {
