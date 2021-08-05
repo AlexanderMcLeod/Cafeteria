@@ -4,12 +4,24 @@ import java.lang.Math;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class Statistics {
 
   private ArrayList<Customer> servedCustomerList = new ArrayList<Customer>();
   private int studentQueueSize;
   private int staffQueueSize;
+
+  public void printServedCustomerList () {
+    for (Customer customer : servedCustomerList) {
+      if (customer instanceof Student) {
+        System.out.println("Student, wait time: " + customer.getWaitTime());
+      }
+      if (customer instanceof Staff) {
+        System.out.println("Staff, wait time: " + customer.getWaitTime());
+      }
+    }
+  }
 
   public void addCustomer(Customer customer) { // Adds the customer to the ArrayList
     servedCustomerList.add(customer);
@@ -129,55 +141,63 @@ public class Statistics {
   public double getModeStudentWaitTime() {
 
     ArrayList<Integer> sortedStudentWaitTimeList = getSortedStudentWaitTimeList();
-
-    int currentAppearanceCount = 0;
-    int currentWaitTime = 0;
-
-    int currentModeWaitTime = 0;
-    int currentModeAppearanceCount = 0;
+         // Wait Time  Appearance Count
+    HashMap<Integer,   Integer> waitTimesAndAppearanceCount = new HashMap<>();
+    int currentModeFrequency = 1;
+    int currentMode = sortedStudentWaitTimeList.get(0);
 
     for (Integer waitTime : sortedStudentWaitTimeList) {
 
-      if (waitTime == currentModeWaitTime) {
-        currentAppearanceCount++;
-      }
-      if (waitTime != currentWaitTime) {
-        if (currentAppearanceCount > currentModeAppearanceCount) {
-          currentModeWaitTime = currentWaitTime;
-          currentModeAppearanceCount = currentAppearanceCount;
+      // If we have already seen this wait time before
+      if (waitTimesAndAppearanceCount.containsKey(waitTime)){
+
+        // Find out how many times it has already shown up
+        int currentCount = waitTimesAndAppearanceCount.get(waitTime);
+        // Increase that number by one
+        waitTimesAndAppearanceCount.put(waitTime, currentCount+1);
+
+        // If this is more frequent than the currently most frequent wait time
+        if (currentCount+1 > currentModeFrequency){
+          currentMode = waitTime; // Make the new mode this wait time
+          currentModeFrequency=currentCount+1; // Make the new modes frequency this modes frequency
         }
-        currentWaitTime = waitTime;
-        currentAppearanceCount = 1;
+
+      } else { // If we have not already seen this before
+        waitTimesAndAppearanceCount.put(waitTime, 1); // Set the wait times frequency to 1
       }
     }
-    return (double) currentModeWaitTime;
+    return currentMode;
   }
 
   public double getModeStaffWaitTime() {
 
     ArrayList<Integer> sortedStaffWaitTimeList = getSortedStaffWaitTimeList();
-
-    int currentAppearanceCount = 0;
-    int currentWaitTime = 0;
-
-    int currentModeWaitTime = 0;
-    int currentModeAppearanceCount = 0;
+         // Wait Time  Appearance Count
+    HashMap<Integer,   Integer> waitTimesAndAppearanceCount = new HashMap<>();
+    int currentModeFrequency = 1;
+    int currentMode = sortedStaffWaitTimeList.get(0);
 
     for (Integer waitTime : sortedStaffWaitTimeList) {
 
-      if (waitTime == currentModeWaitTime) {
-        currentAppearanceCount++;
-      }
-      if (waitTime != currentWaitTime) {
-        if (currentAppearanceCount > currentModeAppearanceCount) {
-          currentModeWaitTime = currentWaitTime;
-          currentModeAppearanceCount = currentAppearanceCount;
+      // If we have already seen this wait time before
+      if (waitTimesAndAppearanceCount.containsKey(waitTime)){
+
+        // Find out how many times it has already shown up
+        int currentCount = waitTimesAndAppearanceCount.get(waitTime);
+        // Increase that number by one
+        waitTimesAndAppearanceCount.put(waitTime, currentCount+1);
+
+        // If this is more frequent than the currently most frequent wait time
+        if (currentCount+1 > currentModeFrequency){
+          currentMode = waitTime; // Make the new mode this wait time
+          currentModeFrequency=currentCount+1; // Make the new modes frequency this modes frequency
         }
-        currentWaitTime = waitTime;
-        currentAppearanceCount = 1;
+
+      } else { // If we have not already seen this before
+        waitTimesAndAppearanceCount.put(waitTime, 1); // Set the wait times frequency to 1
       }
     }
-    return (double) currentModeWaitTime;
+    return currentMode;
   }
 
   public double getMedianStudentWaitTime () {
