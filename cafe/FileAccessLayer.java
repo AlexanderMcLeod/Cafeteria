@@ -29,15 +29,27 @@ public class FileAccessLayer {
       }
 
       // Sets the student count of the minute to the one in the file
-      int studentCountInMinuteInCsv = Integer.parseInt(line.split(",")[1]);
+      String studentCountInMinuteInCsvAsString = line.split(",")[1];
+      // Removes all whitespace from the string
+      studentCountInMinuteInCsvAsString = studentCountInMinuteInCsvAsString.replaceAll("\\s+","");
+      // Converts to an integer
+      int studentCountInMinuteInCsv = Integer.parseInt(studentCountInMinuteInCsvAsString);
       timeline.getMinuteStack().get(minuteIndex).setStudentsAddedToQueue(studentCountInMinuteInCsv); 
 
       // Sets the staff count of the minute to the one in the file
-      int staffCountInMinuteInCsv = Integer.parseInt(line.split(",")[2]);
+      String staffCountInMinuteInCsvAsString = line.split(",")[2];
+      // Removes all whitespace from the string
+      staffCountInMinuteInCsvAsString = staffCountInMinuteInCsvAsString.replaceAll("\\s+","");
+      // Converts to an integer
+      int staffCountInMinuteInCsv = Integer.parseInt(staffCountInMinuteInCsvAsString);
       timeline.getMinuteStack().get(minuteIndex).setStaffAddedToQueue(staffCountInMinuteInCsv);
 
       // Sets the customers served count of the minute to the one in the file
-      int customersServedCountInMinuteInCsv = Integer.parseInt(line.split(",")[3]);
+      String customersServedCountInMinuteInCsvAsString = line.split(",")[3];
+      // Removes all whitespace from the string
+      customersServedCountInMinuteInCsvAsString = customersServedCountInMinuteInCsvAsString.replaceAll("\\s+","");
+      // Converts to an integer
+      int customersServedCountInMinuteInCsv = Integer.parseInt(customersServedCountInMinuteInCsvAsString);
       timeline.getMinuteStack().get(minuteIndex).setCustomersRemovedFromQueue(customersServedCountInMinuteInCsv);
       
     }
