@@ -64,6 +64,10 @@ public class App {
         System.out.println("Could not find file directory: " + path + ", please try again (cap-sensitive)");
         selectedOpen(sc);
         return;
+      } 
+
+      if (timeline == null) {
+        return;
       }
 
       openFile(timeline); // Runs the program on the timeline that the user opened

@@ -8,6 +8,8 @@ public class FileAccessLayer {
 
   public static Timeline openFile (final String PATH) throws FileNotFoundException {
 
+    final int MAX_VALUE = 400;
+
     Timeline timeline = new Timeline (); // Empty timeline to be read into
 
     final File FILE = new File(PATH); // File that is being read
@@ -18,7 +20,25 @@ public class FileAccessLayer {
     while (fileScanner.hasNextLine()) { // While the file has another line
 
       String line = fileScanner.nextLine(); // Reads and saves the line
-      int minuteIndex = Integer.parseInt(line.split(",")[0]); // Finds what minute that line has data for
+
+      String minuteIndexAsString = line.split(",")[0];
+      minuteIndexAsString = minuteIndexAsString.replaceAll("\\s+","");
+
+      int minuteIndex;
+      try { // Makes sure that the string can be converted into an integer
+        minuteIndex = Integer.parseInt(minuteIndexAsString); // Finds what minute that line has data for
+      } catch (NumberFormatException e) {
+        System.out.println("Selected .csv file contains illegal characters, please remove illegal characters and try again");
+        fileScanner.close();
+        return null;
+      }
+
+      // Checks whether they are using a value that is greater than the maximum value
+      if (minuteIndex > MAX_VALUE) {
+        System.out.println("Minute is out of range ( > " + Integer.valueOf(MAX_VALUE) + " ): " + Integer.valueOf(minuteIndex));
+        fileScanner.close();
+        return null;
+      }
 
       /* Adds minutes so that the minute it is trying to edit 
       is in the timeline at all
@@ -32,16 +52,61 @@ public class FileAccessLayer {
       String studentCountInMinuteInCsvAsString = line.split(",")[1];
       // Removes all whitespace from the string
       studentCountInMinuteInCsvAsString = studentCountInMinuteInCsvAsString.replaceAll("\\s+","");
+      
       // Converts to an integer
-      int studentCountInMinuteInCsv = Integer.parseInt(studentCountInMinuteInCsvAsString);
+      int studentCountInMinuteInCsv;
+      try { // Makes sure that the string can be converted into an integer
+        studentCountInMinuteInCsv = Integer.parseInt(studentCountInMinuteInCsvAsString);
+      } catch (NumberFormatException e) {
+        System.out.println("Selected .csv file contains illegal characters, please remove illegal characters and try again");
+        fileScanner.close();
+        return null;
+      }
+
+      // Checks that the value is not greater than the maximum value
+      if (studentCountInMinuteInCsv > MAX_VALUE) {
+        System.out.println("Student count is out of range ( >  " + Integer.valueOf(MAX_VALUE) + " ): " + Integer.valueOf(studentCountInMinuteInCsv));
+        fileScanner.close();
+        return null;
+      }
+
+      // Checks that the value is not negative
+      if (studentCountInMinuteInCsv < 0) {
+        System.out.println("Student count cannot be negative");
+        fileScanner.close();
+        return null;
+      }
+
       timeline.getMinuteStack().get(minuteIndex).setStudentsAddedToQueue(studentCountInMinuteInCsv); 
 
       // Sets the staff count of the minute to the one in the file
       String staffCountInMinuteInCsvAsString = line.split(",")[2];
       // Removes all whitespace from the string
       staffCountInMinuteInCsvAsString = staffCountInMinuteInCsvAsString.replaceAll("\\s+","");
+
       // Converts to an integer
-      int staffCountInMinuteInCsv = Integer.parseInt(staffCountInMinuteInCsvAsString);
+      int staffCountInMinuteInCsv;
+      try { // Makes sure that the string can be converted into an integer
+        staffCountInMinuteInCsv = Integer.parseInt(staffCountInMinuteInCsvAsString);
+      } catch (NumberFormatException e) {
+        System.out.println("Selected .csv file contains illegal characters, please remove illegal characters and try again");
+        fileScanner.close();
+        return null;
+      }
+
+      if (staffCountInMinuteInCsv > MAX_VALUE) {
+        System.out.println("Staff count is out of range ( > " + Integer.valueOf(MAX_VALUE) + " ): " + Integer.valueOf(staffCountInMinuteInCsv));
+        fileScanner.close();
+        return null;
+      }
+
+      // Checks that the value is not negative
+      if (staffCountInMinuteInCsv < 0) {
+        System.out.println("Staff count cannot be negative");
+        fileScanner.close();
+        return null;
+      }
+      
       timeline.getMinuteStack().get(minuteIndex).setStaffAddedToQueue(staffCountInMinuteInCsv);
 
       // Sets the customers served count of the minute to the one in the file
@@ -49,7 +114,30 @@ public class FileAccessLayer {
       // Removes all whitespace from the string
       customersServedCountInMinuteInCsvAsString = customersServedCountInMinuteInCsvAsString.replaceAll("\\s+","");
       // Converts to an integer
-      int customersServedCountInMinuteInCsv = Integer.parseInt(customersServedCountInMinuteInCsvAsString);
+      int customersServedCountInMinuteInCsv;
+      try { // Makes sure that the string can be converted into an integer
+        customersServedCountInMinuteInCsv = Integer.parseInt(customersServedCountInMinuteInCsvAsString);
+      } catch (NumberFormatException e) {
+        System.out.println("Selected .csv file contains illegal characters, please remove illegal characters and try again");
+        fileScanner.close();
+        return null;
+      }
+
+      // Checks that the value entered is not greater than the maximum value
+      if (customersServedCountInMinuteInCsv > MAX_VALUE) {
+        System.out.println("Customer served cout is out of range ( > " +  Integer.valueOf(MAX_VALUE) + " ): " + Integer.valueOf(customersServedCountInMinuteInCsv));
+        fileScanner.close();
+        return null;
+      }
+
+      // Checks that the value is not negative
+      if (customersServedCountInMinuteInCsv < 0) {
+        System.out.println("Customers served count cannot be negative");
+        fileScanner.close();
+        return null;
+      }
+
+      // Saves into the timeline
       timeline.getMinuteStack().get(minuteIndex).setCustomersRemovedFromQueue(customersServedCountInMinuteInCsv);
       
     }
