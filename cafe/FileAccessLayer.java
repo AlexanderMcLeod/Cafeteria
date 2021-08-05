@@ -49,7 +49,14 @@ public class FileAccessLayer {
       }
 
       // Sets the student count of the minute to the one in the file
-      String studentCountInMinuteInCsvAsString = line.split(",")[1];
+      String studentCountInMinuteInCsvAsString;
+      // Checks whether the entry is long enough
+      if (line.split(",").length > 1) { 
+        studentCountInMinuteInCsvAsString = line.split(",")[1];
+      } else {
+        studentCountInMinuteInCsvAsString = "0"; // Sets it to zero if the file does not contain the information
+      }
+
       // Removes all whitespace from the string
       studentCountInMinuteInCsvAsString = studentCountInMinuteInCsvAsString.replaceAll("\\s+","");
       
@@ -80,7 +87,16 @@ public class FileAccessLayer {
       timeline.getMinuteStack().get(minuteIndex).setStudentsAddedToQueue(studentCountInMinuteInCsv); 
 
       // Sets the staff count of the minute to the one in the file
-      String staffCountInMinuteInCsvAsString = line.split(",")[2];
+
+      String staffCountInMinuteInCsvAsString;
+      // Checks whether the entry is long enough
+      if (line.split(",").length > 2) { 
+        staffCountInMinuteInCsvAsString = line.split(",")[2];
+      } else {
+        staffCountInMinuteInCsvAsString = "0"; // Sets it to zero if the file does not contain the information
+      }
+
+
       // Removes all whitespace from the string
       staffCountInMinuteInCsvAsString = staffCountInMinuteInCsvAsString.replaceAll("\\s+","");
 
@@ -110,7 +126,17 @@ public class FileAccessLayer {
       timeline.getMinuteStack().get(minuteIndex).setStaffAddedToQueue(staffCountInMinuteInCsv);
 
       // Sets the customers served count of the minute to the one in the file
-      String customersServedCountInMinuteInCsvAsString = line.split(",")[3];
+
+      String customersServedCountInMinuteInCsvAsString;
+
+      // Checks whether the entry is long enough
+      if (line.split(",").length > 3) { 
+        customersServedCountInMinuteInCsvAsString = line.split(",")[3];
+      } else {
+        customersServedCountInMinuteInCsvAsString = "0";
+      }
+
+
       // Removes all whitespace from the string
       customersServedCountInMinuteInCsvAsString = customersServedCountInMinuteInCsvAsString.replaceAll("\\s+","");
       // Converts to an integer
