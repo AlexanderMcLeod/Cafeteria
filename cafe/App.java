@@ -32,12 +32,15 @@ public class App {
 
       if (answer.toLowerCase().contains("open")) { // If the user said they would like to open a file
         selectedOpen(sc);
+        continue;
       }
 
       if (answer.toLowerCase().contains("generate")) { // If the user typed in generate
         timeline = RandomTimeline.createRandomTimeline(); // Creates a random timeline
         openFile(timeline); // Runs the program on the randomly generated timeline
+        continue;
       }
+      System.out.println("Could not recognise your command, please try again");
     }
   }
 
