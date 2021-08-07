@@ -27,18 +27,24 @@ public class RandomTimeline {
 
       int randomStudentCount = new Random().nextInt(MAX_STUDENTS_PER_MINUTE); // Randomly chooses how many students are being added in that minute
       minToBeAdded.setStudentsAddedToQueue(randomStudentCount); // Sets that random number in the timeline
-      
+
       totalStudentsAddedCount += randomStudentCount; // Updates the amount of students that have been added in total
       personCount += randomStudentCount; // Updates the amount of people currently in the queue
 
       int randomStaffCount = new Random().nextInt(MAX_STAFF_PER_MINUTE); // Randomly chooses how many staff are being added to the queue in that minute
       minToBeAdded.setStaffAddedToQueue(randomStaffCount); // Sets that random number in the timeline
-      
+
       totalStaffAddedCount += randomStaffCount; // Updates the amount of staff that have been added in total
       personCount += randomStaffCount; // Updates the amount of people currently in the queue
 
-      int randomCustomersRemovedCount = new Random().nextInt(Math.min(MAX_CUSTOMERS_SERVED_PER_MINUTE, personCount)); // Randomly chooses how many people are being served in that minute
-      
+      int randomCustomersRemovedCount = 0;
+
+      if (personCount == 0 || MAX_CUSTOMERS_SERVED_PER_MINUTE == 0) {
+        randomCustomersRemovedCount = 0;
+      } else {
+        randomCustomersRemovedCount = new Random().nextInt(Math.min(MAX_CUSTOMERS_SERVED_PER_MINUTE, personCount)); // Randomly chooses how many people are being served in that minute
+      }
+
       minToBeAdded.setCustomersRemovedFromQueue(randomCustomersRemovedCount); // Sets that random number in the timeline
       personCount -= randomCustomersRemovedCount; // Updates the amount of people currently in the queue
 

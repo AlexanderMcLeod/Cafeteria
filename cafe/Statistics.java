@@ -144,6 +144,12 @@ public class Statistics {
          // Wait Time  Appearance Count
     HashMap<Integer,   Integer> waitTimesAndAppearanceCount = new HashMap<>();
     int currentModeFrequency = 1;
+
+    // Check to see if there are any students that have been served at all
+    if (sortedStudentWaitTimeList.isEmpty()) {
+      return -1;
+    }
+
     int currentMode = sortedStudentWaitTimeList.get(0);
 
     for (Integer waitTime : sortedStudentWaitTimeList) {
@@ -175,6 +181,12 @@ public class Statistics {
          // Wait Time  Appearance Count
     HashMap<Integer,   Integer> waitTimesAndAppearanceCount = new HashMap<>();
     int currentModeFrequency = 1;
+
+    // Check to see if there are any staff that have been served at all
+    if (sortedStaffWaitTimeList.isEmpty()) {
+      return -1;
+    }
+
     int currentMode = sortedStaffWaitTimeList.get(0);
 
     for (Integer waitTime : sortedStaffWaitTimeList) {
@@ -357,27 +369,59 @@ public class Statistics {
     System.out.format("+--------------------------+--------------------------+\n");
     System.out.format(titleFormat, "Student " + studentPopulationText, "Staff " + staffPopulationText);
     System.out.format("+--------------------+-----+--------------------+-----+\n");
-    System.out.format(format, "Mean Wait Time", df.format(getMeanStudentWaitTime()), "Mean Wait Time",
-        df.format(getMeanStaffWaitTime()));
-    System.out.format("+--------------------+-----+--------------------+-----+\n");
-    System.out.format(format, "Median Wait Time", df.format(getMedianStudentWaitTime()), "Median Wait Time",
-        df.format(getMedianStaffWaitTime()));
-    System.out.format("+--------------------+-----+--------------------+-----+\n");
-    System.out.format(format, "Mode Wait Time", df.format(getModeStudentWaitTime()), "Mode Wait Time",
-        df.format(getModeStaffWaitTime()));
-    System.out.format("+--------------------+-----+--------------------+-----+\n");
-    System.out.format(format, "Lowest Wait Time", df.format(getLowestStudentWaitTime()), "Lowest Wait Time",
-        df.format(getLowestStaffWaitTime()));
-    System.out.format("+--------------------+-----+--------------------+-----+\n");
-    System.out.format(format, "Greatest Wait Time", df.format(getGreatestStudentWaitTime()), "Greatest Wait Time",
-        df.format(getGreatestStaffWaitTime()));
-    System.out.format("+--------------------+-----+--------------------+-----+\n");
-    System.out.format(format, "Standard Deviation", df.format(getStudentStandardDeviation()), "Standard Deviation",
-        df.format(getStaffStandardDeviation()));
-    System.out.format("+--------------------+-----+--------------------+-----+\n");
-    System.out.format(format, "Unserved Students", df.format(getStudentQueueSize()), "Unserved Staff",
-        df.format(getStaffQueueSize()));
-    System.out.format("+--------------------+-----+--------------------+-----+\n");
+
+    String studentFormat;
+    String[] studentStatTitleList = new String[7];
+    String[] studentStatNumberList = new String[7];
+
+    String staffFormat;
+    String[] staffStatTitleList = new String[7];
+    String[] staffStatNumberList = new String[7];
+
+    if (getStudentQueueSize() == studentPopulation) { // If no students were served
+      studentFormat = "+--------------------------";
+      studentStatTitleList[0] = "No Students Served"; studentStatNumberList[0] = "";
+      studentStatTitleList[1] = "";                   studentStatNumberList[1] = "";
+      studentStatTitleList[2] = "";                   studentStatNumberList[2] = "";
+      studentStatTitleList[3] = "";                   studentStatNumberList[3] = "";
+      studentStatTitleList[4] = "";                   studentStatNumberList[4] = "";
+      studentStatTitleList[5] = "";                   studentStatNumberList[5] = "";
+      studentStatTitleList[6] = "";                   studentStatNumberList[6] = "";
+    }  else {
+      studentFormat = "+--------------------+-----";
+      studentStatTitleList[0] = "Mean Wait Time";     studentStatNumberList[0] = df.format(getMeanStudentWaitTime());
+      studentStatTitleList[1] = "Median Wait Time";   studentStatNumberList[1] = df.format(getMedianStudentWaitTime());
+      studentStatTitleList[2] = "Mode Wait Time";     studentStatNumberList[2] = df.format(getModeStudentWaitTime());
+      studentStatTitleList[3] = "Lowest Wait Time";   studentStatNumberList[3] = df.format(getLowestStudentWaitTime());
+      studentStatTitleList[4] = "Greatest Wait Time"; studentStatNumberList[4] = df.format(getGreatestStudentWaitTime());
+      studentStatTitleList[5] = "Standard Deviation"; studentStatNumberList[5] = df.format(getStudentStandardDeviation());
+      studentStatTitleList[6] = "Unserved Students";  studentStatNumberList[6] = df.format(getStudentQueueSize());
+    }
+
+    if (getStaffQueueSize() == staffPopulation) { // If no staff were served
+      staffFormat = "+--------------------------";
+      staffStatTitleList[0] = "No Staff Served";    staffStatNumberList[0] = "";
+      staffStatTitleList[1] = "";                   staffStatNumberList[1] = "";
+      staffStatTitleList[2] = "";                   staffStatNumberList[2] = "";
+      staffStatTitleList[3] = "";                   staffStatNumberList[3] = "";
+      staffStatTitleList[4] = "";                   staffStatNumberList[4] = "";
+      staffStatTitleList[5] = "";                   staffStatNumberList[5] = "";
+      staffStatTitleList[6] = "";                   staffStatNumberList[6] = "";
+    }  else {
+      staffFormat = "+--------------------+-----";
+      staffStatTitleList[0] = "Mean Wait Time";     staffStatNumberList[0] = df.format(getMeanStaffWaitTime());
+      staffStatTitleList[1] = "Median Wait Time";   staffStatNumberList[1] = df.format(getMedianStaffWaitTime());
+      staffStatTitleList[2] = "Mode Wait Time";     staffStatNumberList[2] = df.format(getModeStaffWaitTime());
+      staffStatTitleList[3] = "Lowest Wait Time";   staffStatNumberList[3] = df.format(getLowestStaffWaitTime());
+      staffStatTitleList[4] = "Greatest Wait Time"; staffStatNumberList[4] = df.format(getGreatestStaffWaitTime());
+      staffStatTitleList[5] = "Standard Deviation"; staffStatNumberList[5] = df.format(getStaffStandardDeviation());
+      staffStatTitleList[6] = "Unserved Staff";     staffStatNumberList[6] = df.format(getStaffQueueSize());
+    }
+    for (int i = 0; i < 6; i++) {
+      System.out.format(format, studentStatTitleList[i], studentStatNumberList[i], 
+      staffStatTitleList[i],   staffStatNumberList[i]);
+      System.out.format(studentFormat + staffFormat);   
+    }
 
   }
 
