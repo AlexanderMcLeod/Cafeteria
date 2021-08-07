@@ -21,29 +21,33 @@ public class App {
       sc = new Scanner(System.in); // Resets it so previous writing does not interfere with new input
       answer = sc.nextLine(); // Gets the users input
 
+      // If the user types both open and generate
       if (answer.toLowerCase().contains("open") && answer.toLowerCase().contains("generate")) {
         System.out.println("You cannot open and generate a file at the same time");
-        continue; // Ends specific iteration of the loop
+        continue; // Stops the other if-statements from running
       }
 
-      if (answer.toLowerCase().contains("exit")) { // If the user types close, leave the while loop
-        break;
+      // If the user types close, leave the while loo
+      if (answer.toLowerCase().contains("exit")) { 
+        break; // Ends the loop, and thus closes the software
       }
 
-      if (answer.toLowerCase().contains("open")) { // If the user said they would like to open a file
-        selectedOpen(sc);
-        continue;
+      // If the user said they would like to open a file
+      if (answer.toLowerCase().contains("open")) { 
+        selectedOpen(sc); 
+        continue; // Stops the other if-statements from running
       }
 
       if (answer.toLowerCase().contains("generate")) { // If the user typed in generate
         timeline = RandomTimeline.createRandomTimeline(); // Creates a random timeline
         openFile(timeline); // Runs the program on the randomly generated timeline
-        continue;
+        continue; // Stops the other if-statements from running
       }
       System.out.println("Could not recognise your command, please try again");
     }
   }
 
+  // This is run if the user types open to find out the file they would like to run, and then run it
   public static void selectedOpen (Scanner sc) throws FileNotFoundException {;
 
     System.out.println("Enter file's location"); // Asks for the location of the file
@@ -69,13 +73,16 @@ public class App {
         return;
       } 
 
-      if (timeline == null) {
+      // Null check
+      if (timeline == null) { 
         return;
       }
-
-      openFile(timeline); // Runs the program on the timeline that the user opened
+      
+      // Runs the program on the timeline that the user opened
+      openFile(timeline); 
 
     } else {
+      // Reminds the user that they should not use data without permission
       System.out.println("Any data collected on real staff and students must only be used with the permission of the real staff and students, whose data was collected");
     }
   }
@@ -96,13 +103,13 @@ public class App {
 
     long endTime = System.nanoTime(); // Stops timer
 
-    int convertToMillisecondsFromNanoSeconds = 1000000;
+    int convertToMillisecondsFromNanoSeconds = 1000000; // Conversion rate from nano seconds to milliseconds
     long duration = (endTime - startTime) / convertToMillisecondsFromNanoSeconds; // Calculates execution time in
                                                                                   // nanoseconds and converts to ms
 
     System.out.println("");
     System.out.println("Simulated and Calculated in " + Long.valueOf(duration) + "ms"); // Prints how long it took to
-                                                                                        // run simulation
+                                                                                        // run the simulation simulation
     System.out.println("");
   }
 
