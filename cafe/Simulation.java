@@ -17,6 +17,12 @@ public class Simulation {
 
       Timeline.Minute minute = timeline.getMinuteStack().get(minuteIndex); // Get the current minute from the timeline
 
+      /*
+       * This will add students into the queue first, 
+       * then add staff,
+       * then start serving the customers
+       */
+
       cafeQueue.addManyStudents(minuteIndex, minute.getStudentsAddedToQueue()); // Add the amount of students added in that minute to the queue
       cafeQueue.addManyStaff(minuteIndex, STAFF_WILL_PUSH_IN, minute.getStaffAddedToQueue()); // Add the amount of staff added in that minute to the queue
       cafeQueue.removeManyFromFront(minuteIndex, minute.getCustomersRemovedFromQueue()); // Remove the amount of customers served in that minute from the queue
