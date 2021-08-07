@@ -21,22 +21,33 @@ public class FileAccessLayer {
 
       String line = fileScanner.nextLine(); // Reads and saves the line
 
+      // Gets the minute from the line
       String minuteIndexAsString = line.split(",")[0];
+
+      // Removes all of the whitespace
       minuteIndexAsString = minuteIndexAsString.replaceAll("\\s+","");
 
       int minuteIndex;
-      try { // Makes sure that the string can be converted into an integer
+
+      // Checks that the string can be converted into an integer
+      try { 
         minuteIndex = Integer.parseInt(minuteIndexAsString); // Finds what minute that line has data for
       } catch (NumberFormatException e) {
+        // Prints an error message if the string cannot be converted into an integer
         System.out.println("Selected .csv file contains illegal characters, please remove illegal characters and try again");
+        // Closes the file
         fileScanner.close();
+        // Stops running the function
         return null;
       }
 
       // Checks whether they are using a value that is greater than the maximum value
       if (minuteIndex > MAX_VALUE) {
+        // Prints an error message
         System.out.println("Minute is out of range ( > " + Integer.valueOf(MAX_VALUE) + " ): " + Integer.valueOf(minuteIndex));
+        // Stops reading the file
         fileScanner.close();
+        // Stops the rest of the function from running
         return null;
       }
 
@@ -44,6 +55,7 @@ public class FileAccessLayer {
       is in the timeline at all
       */
 
+      // If that minute does not exist keep adding minutes into the timeline until it does
       while (minuteIndex > timeline.getMinuteStack().size() - 1){ 
         timeline.getMinuteStack().add(new Timeline.Minute(minuteIndex,0,0,0));
       }
