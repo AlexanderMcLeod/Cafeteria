@@ -1,6 +1,7 @@
 package cafe;
 
 import java.lang.Math; // This is for getting the absolute valuse
+import java.text.DecimalFormat; // This is for rounding in the table
 import java.util.ArrayList; 
 import java.util.Collections;
 import java.util.HashMap; // This is needed for calculating the mode
@@ -437,33 +438,6 @@ public class Statistics {
     staffQueueSize = NEW_SIZE;
   }
 
-  // This is for converting minutes with decimals to minutes and seconds
-  public String convertMinAndSec (double time) {
-
-    // How many minutes were there
-    int min = (int) Math.floor(time);
-
-    // How many seconds are there once you remove minutes
-    double timeRemaining = (time - min);
-
-    // How many seconds are in a minute
-    final int SECONDS_PER_MINTE = 60;
-
-    // How many seconds are there
-    int sec = (int)Math.round(timeRemaining * SECONDS_PER_MINTE);
-
-    // If there are less than 10 seconds left
-    // This is to make sure output is not 0:3 instead of 0:03
-    if (sec < 10) {
-      // Returns sec with an extra zero in front
-      return Integer.valueOf(min) + ":0" + Integer.valueOf(sec);
-    } else {
-      // Returns normally
-      return Integer.valueOf(min) + ":" + Integer.valueOf(sec);
-    }
-
-  }
-
   // This prints the statistics in a neat table
   public void printStatistics() {
     /*
@@ -476,6 +450,8 @@ public class Statistics {
 
     // This is the format for the header or title of the table
     String titleFormat = "|%-26s|%-26s|%n";
+
+    DecimalFormat df = new DecimalFormat("#.#"); // Used to round all printed decimals to one decimal point
 
     // Gets the integer amount of total students and staff that were in the queue
     int studentPopulation = (getStudentQueueSize() + getStudentList().size());
@@ -491,7 +467,6 @@ public class Statistics {
     String staffPopulationText = "(" + Integer.valueOf(staffPopulation) + ")"; // Total staff added to queue
 
     // Prints the header for the table
-    System.out.println("Units: Minutes and Seconds");
     System.out.format("+--------------------------+--------------------------+\n");
     System.out.format(titleFormat, "Student " + studentPopulationText, "Staff " + staffPopulationText);
     System.out.format("+--------------------+-----+--------------------+-----+\n");
@@ -539,15 +514,13 @@ public class Statistics {
       studentTextFormat = "|%-20s|%-5s";
 
    // Column 1                                     // Column 2
-      studentStatTitleList[0] = "Mean Wait Time";     studentStatNumberList[0] = convertMinAndSec(getMeanStudentWaitTime()); // Row 1
-      studentStatTitleList[1] = "Median Wait Time";   studentStatNumberList[1] = convertMinAndSec(getMedianStudentWaitTime()); // Row 2
-      studentStatTitleList[2] = "Mode Wait Time";     studentStatNumberList[2] = convertMinAndSec(getModeStudentWaitTime()); // Row 3
-      studentStatTitleList[3] = "Lowest Wait Time";   studentStatNumberList[3] = convertMinAndSec(getLowestStudentWaitTime()); // Row 4
-      studentStatTitleList[4] = "Greatest Wait Time"; studentStatNumberList[4] = convertMinAndSec(getGreatestStudentWaitTime()); // Row 5
-      studentStatTitleList[5] = "Standard Deviation"; studentStatNumberList[5] = convertMinAndSec(getStudentStandardDeviation()); // Row 6
-
-      // This does not need to be converted to minutes and seconds because it is not time
-      studentStatTitleList[6] = "Unserved Students";  studentStatNumberList[6] = Integer.valueOf(getStudentQueueSize()).toString(); // Row 7
+      studentStatTitleList[0] = "Mean Wait Time";     studentStatNumberList[0] = df.format(getMeanStudentWaitTime()); // Row 1
+      studentStatTitleList[1] = "Median Wait Time";   studentStatNumberList[1] = df.format(getMedianStudentWaitTime()); // Row 2
+      studentStatTitleList[2] = "Mode Wait Time";     studentStatNumberList[2] = df.format(getModeStudentWaitTime()); // Row 3
+      studentStatTitleList[3] = "Lowest Wait Time";   studentStatNumberList[3] = df.format(getLowestStudentWaitTime()); // Row 4
+      studentStatTitleList[4] = "Greatest Wait Time"; studentStatNumberList[4] = df.format(getGreatestStudentWaitTime()); // Row 5
+      studentStatTitleList[5] = "Standard Deviation"; studentStatNumberList[5] = df.format(getStudentStandardDeviation()); // Row 6
+      studentStatTitleList[6] = "Unserved Students";  studentStatNumberList[6] = df.format(getStudentQueueSize()); // Row 7
     }
 
     if (getStaffQueueSize() == staffPopulation) { // If no staff were served
@@ -574,15 +547,13 @@ public class Statistics {
     }  else {
       staffBorderFormat = "+--------------------+-----";
       staffTextFormat = "|%-20s|%-5s";
-      staffStatTitleList[0] = "Mean Wait Time";     staffStatNumberList[0] = convertMinAndSec(getMeanStaffWaitTime());
-      staffStatTitleList[1] = "Median Wait Time";   staffStatNumberList[1] = convertMinAndSec(getMedianStaffWaitTime());
-      staffStatTitleList[2] = "Mode Wait Time";     staffStatNumberList[2] = convertMinAndSec(getModeStaffWaitTime());
-      staffStatTitleList[3] = "Lowest Wait Time";   staffStatNumberList[3] = convertMinAndSec(getLowestStaffWaitTime());
-      staffStatTitleList[4] = "Greatest Wait Time"; staffStatNumberList[4] = convertMinAndSec(getGreatestStaffWaitTime());
-      staffStatTitleList[5] = "Standard Deviation"; staffStatNumberList[5] = convertMinAndSec(getStaffStandardDeviation());
-
-      // This will not be converted to minutes and seconds because it is not a time
-      staffStatTitleList[6] = "Unserved Staff";     staffStatNumberList[6] = Integer.valueOf(getStaffQueueSize()).toString();
+      staffStatTitleList[0] = "Mean Wait Time";     staffStatNumberList[0] = df.format(getMeanStaffWaitTime());
+      staffStatTitleList[1] = "Median Wait Time";   staffStatNumberList[1] = df.format(getMedianStaffWaitTime());
+      staffStatTitleList[2] = "Mode Wait Time";     staffStatNumberList[2] = df.format(getModeStaffWaitTime());
+      staffStatTitleList[3] = "Lowest Wait Time";   staffStatNumberList[3] = df.format(getLowestStaffWaitTime());
+      staffStatTitleList[4] = "Greatest Wait Time"; staffStatNumberList[4] = df.format(getGreatestStaffWaitTime());
+      staffStatTitleList[5] = "Standard Deviation"; staffStatNumberList[5] = df.format(getStaffStandardDeviation());
+      staffStatTitleList[6] = "Unserved Staff";     staffStatNumberList[6] = df.format(getStaffQueueSize());
     }
 
     // This combines the border format so that the two columns are connected
