@@ -17,7 +17,10 @@ public class App {
     while (true) {
 
       System.out.println("The format for a file is a .csv file with a header in this order: Minute, Students joined, Staff joined, Customers Served");
-      System.out.println("(OPEN) file, (GENERATE) random or (EXIT)"); // Asks the user what they would like to do
+      System.out.println("Please type:"); // Asks the user what they would like to do
+      System.out.println("  [Open] if you would like to open a file");
+      System.out.println("  [Generate] if you would like to generate a random file");
+      System.out.println("  [Exit] if you would like to leave the software");
 
       sc = new Scanner(System.in); // Resets it so previous writing does not interfere with new input
       answer = sc.nextLine(); // Gets the users input
