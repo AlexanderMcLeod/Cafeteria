@@ -15,6 +15,14 @@ public class FileAccessLayer {
     final File FILE = new File(PATH); // File that is being read
     Scanner fileScanner = new Scanner(FILE); // Scanner for reading the file
 
+    if (!fileScanner.hasNextLine()) {
+      System.out.println("");
+      System.out.println("Error: Cannot use empty file, please try again");
+      System.out.println("");
+      fileScanner.close();
+      return null;
+    }
+
     fileScanner.nextLine(); // Skips the headers of the csv file
 
     while (fileScanner.hasNextLine()) { // While the file has another line
@@ -34,7 +42,7 @@ public class FileAccessLayer {
         minuteIndex = Integer.parseInt(minuteIndexAsString); // Finds what minute that line has data for
       } catch (NumberFormatException e) {
         // Prints an error message if the string cannot be converted into an integer
-        System.out.println("Selected .csv file contains illegal characters, please remove illegal characters and try again");
+        System.out.println("Error: Selected .csv file contains illegal characters, please remove illegal characters and try again");
         // Closes the file
         fileScanner.close();
         // Stops running the function
@@ -44,7 +52,7 @@ public class FileAccessLayer {
       // Checks whether they are using a value that is greater than the maximum value
       if (minuteIndex > MAX_VALUE) {
         // Prints an error message
-        System.out.println("Minute is out of range ( > " + Integer.valueOf(MAX_VALUE) + " ): " + Integer.valueOf(minuteIndex));
+        System.out.println("Error: Minute is out of range ( > " + Integer.valueOf(MAX_VALUE) + " ): " + Integer.valueOf(minuteIndex));
         // Stops reading the file
         fileScanner.close();
         // Stops the rest of the function from running
@@ -77,21 +85,21 @@ public class FileAccessLayer {
       try { // Makes sure that the string can be converted into an integer
         studentCountInMinuteInCsv = Integer.parseInt(studentCountInMinuteInCsvAsString);
       } catch (NumberFormatException e) {
-        System.out.println("Selected .csv file contains illegal characters, please remove illegal characters and try again");
+        System.out.println("Error: Selected .csv file contains illegal characters, please remove illegal characters and try again");
         fileScanner.close();
         return null;
       }
 
       // Checks that the value is not greater than the maximum value
       if (studentCountInMinuteInCsv > MAX_VALUE) {
-        System.out.println("Student count is out of range ( >  " + Integer.valueOf(MAX_VALUE) + " ): " + Integer.valueOf(studentCountInMinuteInCsv));
+        System.out.println("Error: Student count is out of range ( >  " + Integer.valueOf(MAX_VALUE) + " ): " + Integer.valueOf(studentCountInMinuteInCsv));
         fileScanner.close();
         return null;
       }
 
       // Checks that the value is not negative
       if (studentCountInMinuteInCsv < 0) {
-        System.out.println("Student count cannot be negative");
+        System.out.println("Error: Student count cannot be negative");
         fileScanner.close();
         return null;
       }
@@ -117,20 +125,20 @@ public class FileAccessLayer {
       try { // Makes sure that the string can be converted into an integer
         staffCountInMinuteInCsv = Integer.parseInt(staffCountInMinuteInCsvAsString);
       } catch (NumberFormatException e) {
-        System.out.println("Selected .csv file contains illegal characters, please remove illegal characters and try again");
+        System.out.println("Error: Selected .csv file contains illegal characters, please remove illegal characters and try again");
         fileScanner.close();
         return null;
       }
 
       if (staffCountInMinuteInCsv > MAX_VALUE) {
-        System.out.println("Staff count is out of range ( > " + Integer.valueOf(MAX_VALUE) + " ): " + Integer.valueOf(staffCountInMinuteInCsv));
+        System.out.println("Error: Staff count is out of range ( > " + Integer.valueOf(MAX_VALUE) + " ): " + Integer.valueOf(staffCountInMinuteInCsv));
         fileScanner.close();
         return null;
       }
 
       // Checks that the value is not negative
       if (staffCountInMinuteInCsv < 0) {
-        System.out.println("Staff count cannot be negative");
+        System.out.println("Error: Staff count cannot be negative");
         fileScanner.close();
         return null;
       }
@@ -156,21 +164,21 @@ public class FileAccessLayer {
       try { // Makes sure that the string can be converted into an integer
         customersServedCountInMinuteInCsv = Integer.parseInt(customersServedCountInMinuteInCsvAsString);
       } catch (NumberFormatException e) {
-        System.out.println("Selected .csv file contains illegal characters, please remove illegal characters and try again");
+        System.out.println("Error: Selected .csv file contains illegal characters, please remove illegal characters and try again");
         fileScanner.close();
         return null;
       }
 
       // Checks that the value entered is not greater than the maximum value
       if (customersServedCountInMinuteInCsv > MAX_VALUE) {
-        System.out.println("Customer served cout is out of range ( > " +  Integer.valueOf(MAX_VALUE) + " ): " + Integer.valueOf(customersServedCountInMinuteInCsv));
+        System.out.println("Error: Customer served count is out of range ( > " +  Integer.valueOf(MAX_VALUE) + " ): " + Integer.valueOf(customersServedCountInMinuteInCsv));
         fileScanner.close();
         return null;
       }
 
       // Checks that the value is not negative
       if (customersServedCountInMinuteInCsv < 0) {
-        System.out.println("Customers served count cannot be negative");
+        System.out.println("Error: Customers served count cannot be negative");
         fileScanner.close();
         return null;
       }
