@@ -15,15 +15,25 @@ public class FileAccessLayer {
     final File FILE = new File(PATH); // File that is being read
     Scanner fileScanner = new Scanner(FILE); // Scanner for reading the file
 
-    if (!fileScanner.hasNextLine()) {
+    // Checks if there is anything in the file at all
+    if (!fileScanner.hasNextLine()) { // If there is not a next line
       System.out.println("");
-      System.out.println("Error: Cannot use empty file, please try again");
+      System.out.println("Error: Cannot use empty file, please try again"); // Prints an error message
       System.out.println("");
-      fileScanner.close();
-      return null;
+      fileScanner.close(); // Closes the file
+      return null; // Returns null
     }
 
     fileScanner.nextLine(); // Skips the headers of the csv file
+
+    // Checks if there is another line after the header
+    if (!fileScanner.hasNextLine()) { // If there is no line after the header
+      System.out.println("");
+      System.out.println("Error: Cannot use empty file, please try again"); // Print an error message
+      System.out.println("");
+      fileScanner.close(); // Closes the file
+      return null; 
+    }
 
     while (fileScanner.hasNextLine()) { // While the file has another line
 
